@@ -1,0 +1,29 @@
+CMakeFiles/dfu-test.elf.dir/User_App/com/com_buffer.c.obj: \
+ E:\Project\USB-study\dfu-test\User_App\com\com_buffer.c \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\stdlib.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\machine\ieeefp.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\_ansi.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\newlib.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\_newlib_version.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\config.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\features.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\lib\gcc\arm-none-eabi\12.2.1\include\stddef.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\reent.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\_ansi.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\_types.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\machine\_types.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\machine\_default_types.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\lock.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\cdefs.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\machine\stdlib.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\alloca.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\string.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\_locale.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\strings.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\string.h \
+ E:\Project\USB-study\dfu-test\User_App\com\com_buffer.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\lib\gcc\arm-none-eabi\12.2.1\include\stdint.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\stdint.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\_intsup.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\arm-none-eabi\include\sys\_stdint.h \
+ c:\users\public\app\mingw-w64-i686-arm-none-eabi\lib\gcc\arm-none-eabi\12.2.1\include\stdbool.h

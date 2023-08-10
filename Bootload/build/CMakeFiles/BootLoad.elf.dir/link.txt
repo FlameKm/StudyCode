@@ -1,0 +1,1 @@
+C:\Users\Public\APP\mingw-w64-i686-arm-none-eabi\bin\arm-none-eabi-g++.exe -g -Wl,-gc-sections,--print-memory-usage,-Map=E:/Project/Code/Bootload-study/build/BootLoad.map -mcpu=cortex-m3 -mthumb -mthumb-interwork -T E:/Project/Code/Bootload-study/STM32F103C8TX_FLASH.ld @CMakeFiles\BootLoad.elf.dir\objects1.rsp -o BootLoad.elf 
