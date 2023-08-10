@@ -1,3 +1,0 @@
-E:/Project/Code/Bootload-study/build/CMakeFiles/BootLoad.elf.dir
-E:/Project/Code/Bootload-study/build/CMakeFiles/edit_cache.dir
-E:/Project/Code/Bootload-study/build/CMakeFiles/rebuild_cache.dir
