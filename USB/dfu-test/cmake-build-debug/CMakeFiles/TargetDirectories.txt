@@ -1,3 +1,0 @@
-E:/Project/USB-study/dfu-test/cmake-build-debug/CMakeFiles/dfu-test.elf.dir
-E:/Project/USB-study/dfu-test/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/Project/USB-study/dfu-test/cmake-build-debug/CMakeFiles/rebuild_cache.dir
