@@ -1,3 +1,6 @@
 [submodule "Zephyr"]
 	path = Zephyr
 	url = git@github.com:FlameKm/ZephyrStudy.git
+[submodule "LinuxDrive"]
+	path = LinuxDrive
+	url = git@github.com:FlameKm/LinuxDriveStudy.git
