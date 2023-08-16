@@ -1,9 +1,0 @@
-{
-    "makefile.launchConfigurations": [
-        {
-            "cwd": "e:\\Project\\Zephyr-study\\HELLO\\build",
-            "binaryPath": "e:\\Project\\Zephyr-study\\HELLO\\build\\HELLO.elf",
-            "binaryArgs": []
-        }
-    ]
-}

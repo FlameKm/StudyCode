@@ -7,9 +7,12 @@
             "label": "build",
             "type": "shell",
             "command": "make",
-            "args": [
-            ],
-            "group": "build"
+            "args": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
         },
         {
             "label": "download",
