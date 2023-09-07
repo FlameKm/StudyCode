@@ -1,2 +1,4 @@
-/Bootload/app/cmake-build-debug/
-/.idea/
+*build*/
+.idea/
+.vscode/
+/LeetCode/leetcode/editor/cn/doc/
