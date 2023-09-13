@@ -72,6 +72,7 @@ public:
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
+/*
 int main()
 {
     string s1 = "mississippi";
@@ -79,4 +80,4 @@ int main()
     Solution solution;
     int a = solution.strStr(s1, s2);
     printf("%d", a);
-}
+}*/
