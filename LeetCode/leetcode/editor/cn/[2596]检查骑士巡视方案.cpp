@@ -113,6 +113,7 @@ public:
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
+/*
 int main()
 {
     vector<vector<int>> grid = {{24, 11, 22, 17, 4},
@@ -122,4 +123,4 @@ int main()
                                 {0, 7, 14, 19, 2}};
     Solution s;
     printf("%d", s.checkValidGrid(grid));
-}
+}*/

@@ -39,30 +39,25 @@
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution
-{
+class Solution {
 public:
-    void backtrack(vector<vector<int>> &res, vector<int> list, vector<int> &nums, int now_pos)
-    {
-        if (now_pos == nums.size()) {
-            res.push_back(nums);
-            return;
-        }
-        for (int i = 0; i < nums.size(); ++i) {
-            if(i == now_pos){
-                continue;
-            }
-            list.push_back(nums[i]);
-            backtrack(res, list, nums, now_pos + 1);
-            list.pop_back();
-        }
-    }
-    vector<vector<int>> permute(vector<int> &nums)
-    {
-        vector<vector<int>> res;
-        vector<int> list;
-        backtrack(res, list, nums, 0);
+    vector<vector<int>> permute(vector<int>& nums) {
+        dfs(nums, 0);
         return res;
     }
+private:
+    vector<vector<int>> res;
+    void dfs(vector<int> nums, int x) {
+        if (x == nums.size() - 1) {
+            res.push_back(nums);      // 添加排列方案
+            return;
+        }
+        for (int i = x; i < nums.size(); i++) {
+            swap(nums[i], nums[x]);   // 交换，将 nums[i] 固定在第 x 位
+            dfs(nums, x + 1);         // 开启固定第 x + 1 位元素
+            swap(nums[i], nums[x]);   // 恢复交换
+        }
+    }
 };
+
 //leetcode submit region end(Prohibit modification and deletion)
