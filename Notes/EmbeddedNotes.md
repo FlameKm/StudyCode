@@ -2967,7 +2967,7 @@ git submodule add <https://github.com/xxx/child.git>
 - 拉去方式一
 
 ```shell
-git submodule init & git submodule uopdate
+git submodule init & git submodule update
 ```
 
 - 拉去方式二
@@ -3026,6 +3026,20 @@ git config --global https.proxy
 export http_proxy=http://127.0.0.1:7890
 export https_proxy=https://127.0.0.1:7890
 ```
+
+## ssh
+
+修改{user}/.ssh/config，添加如下内容
+
+```config
+Host github.com
+  Hostname ssh.github.com
+  Port 443
+  User git
+  ProxyCommand connect -S 192.168.1.3:7890 %h %p
+```
+
+提示：这个是修改github的ssh代理，使用git链接的时候使用的是ssh连接，因此需要设置ssh
 
 
 
