@@ -171,3 +171,13 @@ git rebase origin/main
 git push -u origin myfeature 
 ```
 
+## Commit撤销
+
+1. 只改变注释`git commit --amend` 
+2. 撤回到上一个分支 `git reset --soft HEAD^`， soft参数查看RESET章节, 
+
+## RESET
+
+- **--mixed**  不删除工作空间改动代码，撤销commit，并且撤销git add . 操作
+- **--soft** 不删除工作空间改动代码，撤销commit，不撤销git add . 
+- **--hard ** 删除工作空间改动代码，撤销commit，撤销git add . 
