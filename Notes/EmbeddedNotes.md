@@ -1015,7 +1015,7 @@ ps -ef | grep app.py | grep -v grep
 
 ## 自启动Service
 
-举例`clash.server`文件放在 `/etc/systemd/system/`下
+举例`clash.service`文件放在 `/etc/systemd/system/`下
 
 ```shell
 [Unit]
@@ -1028,7 +1028,7 @@ ExecStart=/usr/local/bin/clash
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.targe
+WantedBy=multi-user.target
 ```
 
 基本命令

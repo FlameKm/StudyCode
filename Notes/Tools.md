@@ -177,6 +177,29 @@ echo id_rsa.pub >> authorized_keys
 ssh-copy-id ${username}@${remote-server}
 ```
 
+## 自动登陆
+
+https://blog.csdn.net/deephacking/article/details/134108938
+
+## 桌面图标
+
+创建桌面图标文件,以clion举例，需要注意的有Exec、Icon
+
+`sudo gedit /usr/share/applictions/clion.desktop`
+
+```bash
+[Desktop Entry]
+Name=Clion
+Exec=/usr/local/bin/clion --no-sandbox %U
+Terminal=false
+Type=Application
+Icon=/usr/local/bin/icon/clion.png
+Comment=clion
+Categories=Application;
+```
+
+重启后加载
+
 
 
 # VSCode
