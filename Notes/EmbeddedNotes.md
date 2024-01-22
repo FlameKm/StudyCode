@@ -158,7 +158,7 @@ CMSIS-DAP调试器是有单独的一条复位线的，但是当时没考虑它�
 
 采集固定12.5个周期，间隔可以选择![](media/image4.png)，计算采样频率的时候为：ADC时钟频率/（55.5+12.2）
 
-## BootLoad
+## BootLoader
 
 ### 跳转方式
 
@@ -837,7 +837,7 @@ static int uart_transmit(com_buffer_cb_t *com, uint8_t *buf, uint16_t size)
 | cat      | 打印文件内容           |
 | udhcpc   | 自动获取网络ip         |
 | gedit    | ubuntu的文本编辑       |
-| geap     | 搜索                   |
+| grep     | 搜索                   |
 
 ## VIM快捷键
 
@@ -995,52 +995,6 @@ sudo bash kitware-archive.sh
 
 如果使用早于 22.04 的 Ubuntu 版本，则需要添加额外的存储库以满足上面列出的主要依赖项的最低版本要求。在这种情况下，请下载、检查并执行 Kitware 存档脚本，以将 Kitware APT 存储库添加到您的源列表中。 kitware-archive.sh的详细解释可以在这里找到kitware第=方apt存储库
 
-## SSH服务和公钥登录
-
-### 安装
-
-```shell
-sudo apt-get install openssh-server
-```
-
-### 登录
-
-ssh 到指定端口 ``ssh xx user@ip``
-
-**如果是转发的流量 加上 -p**
-
-### 创建公钥
-
-- 配置
-
-``sudo vim /etc/ssh/sshd_config``
-
-PermitRootLogin yes改为no
-
-- 重启
-
-``systemctl restart sshd.service``
-
-- 生成公钥
-
-ssh-keygen
-
-- 删除旧的连接认证,重新生成新的
-
-``ssh-keygen -R +输入服务器的IP``
-
-一个key对应一个，需要连接的对应上就行
-
-### 使用公钥
-
-原理：如果使用私钥`id_rsa`登录服务器时候，服务器会检查所登录的用户的`~/.ssh/authorized_keys`里搜索是否存在本地的`id_rsa.pub`文本，存在的话则允许登录。
-
-```shell
-mkdir .ssh
-touch authorized_keys
-echo id_rsa.pub >> authorized_keys
-```
-
 ## 后台运行
 
 ```shell
@@ -1056,6 +1010,8 @@ nohup python3 app.py & tail -f nohup.out
 # 命令可查看运行于后台的进程
 ps -ef | grep app.py | grep -v grep 
 ```
+
+
 
 ## 自启动Service
 
@@ -1290,198 +1246,6 @@ opkg install luci-i18n-base-zh-cn
 
 
 
-
-
-## 交叉编译
-
-设置环境变量
-
-```c
-PATH=$PATH:/home/hyc/gcc/bin
-```
-
-保存后,重新加载环境变量
-
-```shell
-source ~/.bashrc
-```
-
-## 驱动
-
-### 安装卸载
-
-`lsmod` 查看加载的驱动列表
-
-`rmmod modname` 卸载已加载的驱动
-
-`modprobe -r modname` 如果用以上命令无法卸载，先执行此命令
-
-## **GPIO子系统**
-
-### 查看gpio使用状态
-
-```shell
-cat /sys/kernel/debug/gpio
-```
-
-### 确定GPIO引脚的编号
-
-① 先在开发板的`/sys/class/gpio`目录下，找到各个`gpiochipXXX`目录：
-
-![](media/image33.png)
-
-② 然后进入某个`gpiochipXXX`目录，查看文件`label`的内容，就可以知道起始号码XXX对于哪组GPIO
-
-### shell控制
-
-以引脚编号为110为例.
-
-```shell
-echo 110 > /sys/class/gpio/export ## gpio_request
-echo in > /sys/class/gpio/gpio110/direction ## gpio_direction_input
-cat /sys/class/gpio/gpio110/value ## gpio_get_value
-echo 110 > /sys/class/gpio/unexport ## gpio_free
-```
-
-对于输出,以N为例
-
-```shell
-echo 104> /sys/class/gpio/export
-echo out > /sys/class/gpio/gpio104/direction
-echo 1 > /sys/class/gpio/gpio104/value
-echo 104> /sys/class/gpio/unexport
-```
-
-### GPIO子系统函数
-
-| **descriptor-based**       | **legacy**            |
-| -------------------------- | --------------------- |
-| **获得GPIO**               |                       |
-| **gpiod_get**              | gpio_request          |
-| **gpiod_get_index**        |                       |
-| **gpiod_get_array**        | gpio_request_array    |
-| **devm_gpiod_get**         |                       |
-| **devm_gpiod_get_index**   |                       |
-| **devm_gpiod_get_array**   |                       |
-| **设置方向**               |                       |
-| **gpiod_direction_input**  | gpio_direction_input  |
-| **gpiod_direction_output** | gpio_direction_output |
-| **读值、写值**             |                       |
-| **gpiod_get_value**        | gpio_get_value        |
-| **gpiod_set_value**        | gpio_set_value        |
-| **释放GPIO**               |                       |
-| **gpio_free**              | gpio_free             |
-| **gpiod_put**              | gpio_free_array       |
-| **gpiod_put_array**        |                       |
-| **devm_gpiod_put**         |                       |
-| **devm_gpiod_put_array**   |                       |
-
-## 中断
-
-### 流程
-
-在驱动程序里使用中断的流程如下：
-
-1.  确定中断号
-
-注册中断处理函数，函数原型如下：
-
-```c
-int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,const char *name, void *dev);
-```
-
-2.  在中断处理函数里
-
-- 分辨中断
-
-- 处理中断
-
-- 清除中断
-
-### 获取中断号
-
-gpio子系统中：
-
-```c
-int gpio_to_irq(unsigned int gpio);
-int gpiod_to_irq(const struct gpio_desc *desc);
-```
-
-### 获取中断名称
-
-```shell
-cat /proc/interrupts
-```
-
-### 触发方式类型
-
-```c
-#define IRQF_TRIGGER_NONE 0x00000000
-#define IRQF_TRIGGER_RISING 0x00000001
-#define IRQF_TRIGGER_FALLING 0x00000002
-#define IRQF_TRIGGER_HIGH 0x00000004
-#define IRQF_TRIGGER_LOW 0x00000008
-#define IRQF_SHARED 0x00000080
-```
-
-## **zsh (oh my zsh)**
-
-```shell
-#1.  安装zsh： 
-sudo apt install zsh
-
-# 安装oh mymzsh：
-sh -c "$(curl -fsSL [https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"
-```
-
-# DOCKER容器
-
-## 添加容器
-
-举例：
-
-```shell
-docker run --restart always -d --name=OpenWRT --network macnet --privileged unifreq/openwrt-aarch64 /sbin/init
-```
-
-名字：`OpenWRT` 使用网络模式：`macnet `镜像名字：`unifreq/openwrt-aarch64`
-
-## 进入容器
-
-```shell
-doker exec -it [容器名或者id] bash
-```
-
-## 退出容器
-
-快捷键 `ctrl+p+q`
-
-或命令 输入命令 `exit`
-
-## 查看容器
-
-```shell
-doker ps
-```
-
-## **镜像**
-
-```shell
-# 拉取镜像
-docker pull xxx:tag
-
-# 镜像保存为tar
-docker save -o xxx.tar xxx:tag
-
-# 导入本地镜像
-docker load --input xxx.tar
-# or
-cat xxx.tar.gz | docker import - openwrt/lede
-
-# 查看镜像
-docker image ls
-```
-
 # **树莓派**
 
 ## 交叉编译器
@@ -1537,119 +1301,9 @@ sudo raspi-config
 
 
 
-# CMake
+# 动静态编译
 
-## 交叉编译
-
-参考链接：https://cmake.org/cmake/help/v3.25/manual/cmake.1.html#options
-
-<https://zhuanlan.zhihu.com/p/100367053>
-
-## 构建静态库和动态库
-
-假设目录结构是
-
-```shell
-.
-├── build
-├── CMakeLists.txt
-└── lib
-├── CMakeLists.txt
-├── hello.cpp
-└── hello.h
-```
-
-其中hello为一个简单的库
-
-**外部cmake为**
-
-```cmake
-PROJECT(HELLO)
-ADD_SUBDIRECTORY(lib bin) #lib为包含目录，bin为构建生成的目录
-```
-
-**内部cmake为**
-
-```cmake
-SET(LIBHELLO_SRC hello.cpp)
-ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
-```
-
-此时直接执行cmake可以在build生成可执行程序
-
-**解析**
-
-```cmake
-# - hello：就是正常的库名，⽣成的名字前⾯会加上lib，最终产⽣的⽂件是libhello.so
-# - SHARED，动态库 STATIC，静态库
-# - ${LIBHELLO_SRC} ：源⽂件
-ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
-```
-
-## **添加非标准库**
-
-```cmake
-# 对应gcc的-L指定目录
-link_directories(lib)
-target_link_libraries(test libshow.a)
-```
-
-# 工具链
-
-## Ninja
-
-使用`cmake`生成`Ninja`工程文件
-
-```shell
-cmake -G Ninja ..
-```
-
-使用ninja编译工程，会去检索当前目录下的build.ninja去构建
-
-```shell
-ninja
-```
-
-## MakeFile
-
-参考链接：<https://www.cnblogs.com/QG-whz/p/5461110.html>
-
-命令：
-
-| 指令                                                        | 内容原文                                          | 意思                                        |
-| ----------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------- |
-| -b, -m                                                      | Ignored for compatibility.                        | 为了兼容性而忽略。                          |
-| -B, --always-make                                           | Unconditionally make all targets.                 | 无条件地构建所有目标。                      |
-| -C DIRECTORY                                                | Change to DIRECTORY before doing anything.        | 在执行任何操作之前切换到DIRECTORY目录。     |
-| -d                                                          | Print lots of debugging information.              | 打印大量调试信息。                          |
-| --debug[=FLAGS]                                             | Print various types of debugging information.     | 打印各种类型的调试信息。                    |
-| -e, --environment-overrides                                 | Environment variables override makefiles.         | 环境变量覆盖makefiles中的定义。             |
-| -f FILE, --file=FILE, --makefile=FILE                       | Read FILE as a makefile.                          | 以FILE作为makefile读取。                    |
-| -h, --help                                                  | Print this message and exit.                      | 打印此消息并退出。                          |
-| -i, --ignore-errors                                         | Ignore errors from commands.                      | 忽略命令中的错误。                          |
-| -I DIRECTORY                                                | Search DIRECTORY for included makefiles.          | 在DIRECTORY中搜索包含的makefile。           |
-| -j [N], --jobs[=N]                                          | Allow N jobs at once; infinite jobs with no arg.  | 允许同时进行N个作业；不带参数表示无限作业。 |
-| -k, --keep-going                                            | Keep going when some targets can't be made.       | 在某些目标无法构建时继续。                  |
-| -l [N], --load-average[=N], --max-load[=N]                  | Don't start multiple jobs unless load is below N. | 除非负载低于N，否则不启动多个作业。         |
-| -L, --check-symlink-times                                   | Use the latest mtime between symlinks and target. | 在符号链接和目标之间使用最新的修改时间。    |
-| -n, --just-print, --dry-run, --recon                        | Don't actually run any commands; just print them. | 不实际运行任何命令；仅打印命令。            |
-| -o FILE, --old-file=FILE, --assume-old=FILE                 | Consider FILE to be very old and don't remake it. | 将FILE视为非常旧，不重新构建。              |
-| -p, --print-data-base                                       | Print make's internal database.                   | 打印make的内部数据库。                      |
-| -q, --question                                              | Run no commands; exit status says if up to date.  | 不执行任何命令；退出状态表示是否为最新。    |
-| -r, --no-builtin-rules                                      | Disable the built-in implicit rules.              | 禁用内置的隐含规则。                        |
-| -R, --no-builtin-variables                                  | Disable the built-in variable settings.           | 禁用内置的变量设置。                        |
-| -s, --silent, --quiet                                       | Don't echo commands.                              | 不回显命令。                                |
-| -S, --no-keep-going, --stop                                 | Turns off -k.                                     | 关闭-k选项。                                |
-| -t, --touch                                                 | Touch targets instead of remaking them.           | 触摸目标，而不是重新构建。                  |
-| -v, --version                                               | Print the version number of make and exit.        | 打印make的版本号并退出。                    |
-| -w, --print-directory                                       | Print the current directory.                      | 打印当前目录。                              |
-| --no-print-directory                                        | Turn off -w, even if it was turned on implicitly. | 关闭-w选项，即使它是隐含开启的。            |
-| -W FILE, --what-if=FILE, --new-file=FILE, --assume-new=FILE | Consider FILE to be infinitely new.               | 将FILE视为无限新。                          |
-| --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
-
-## GCC
-
-### 编译步骤
+## 编译步骤
 
 预 编 译：``gcc -E c源文件 -o 输出i目标文件；``
 
@@ -1659,7 +1313,7 @@ ninja
 
 链接阶段：``gcc o源文件 -o 输出可执行文件；``
 
-### 动态链接库
+动态链接库
 
 c语言中存在`静态库(.a)`和`动态库(.so)`。
 
@@ -1726,7 +1380,7 @@ gcc fun.c -shared -fPIC -o libxx.so
 
     此时程序无法运行，根据提示可以知道程序会去lib目录下查找，将`libxx.so`放入到`/lib`目录下，程序才能够正常运行
 
-### 静态链接库
+## 静态链接库
 
 静态库实际上是一些目标文件的集合，只用于链接生成可执行文件阶段。链接器会将程序中使用到函数的代码从库文件中拷贝到应用程序中，一旦链接完成生成可执行文件之后，在执行程序的时候就不需要静态库了。
 
@@ -1764,72 +1418,6 @@ gcc fun.c -shared -fPIC -o libxx.so
 3. 执行程序
 
    生成main可以在无需打包的情况下运行，无需外部添加链接文件
-
-## **OpenOCD**
-
-**vscode使用openocd的方法链接：**
-
-[**https://www.jianshu.com/p/ca26b2227a58**](https://www.jianshu.com/p/ca26b2227a58)
-
-### 开启
-
-```shell
-openocd -f openocd.cfg
-```
-
-![](media/image49.png)
-
-openocd会默认在当前路径搜索`openocd.cfg`如果有的话会执行此程序，除非使用命令-f指定。
-
-### 进入后台
-
-比如使用MobaXterm
-
-![](media/image50.png)
-
-### 烧录
-
-在后台输入此命令即可烧录
-
-```shell
-program build/HELLO.elf verify reset
-exit
-```
-
-或者输入
-
-```shell
-openocd -f openocd.cfg -c 'program build/HELLO.elf reset exit'
-```
-
-注意：这个方法需要指定`cfg`，也就是前面的`-f openocd.cfg`，这个必须要被包含，否则会导致初始化失败
-
-### 更简单的方法（本地）
-
-openocd.cfg配置文件里面能够写入执行程序，比如reset run shutdown等
-
-值得注意的是，如果使用这个方法并写入`shutdown`，只是烧录程序，没办法调试。
-
-比如烧录程序的例子
-
-```shell
-#选择cmsis-dap
-adapter driver cmsis-dap
-
-#swd模式
-transport select swd
-
-source [find target/stm32f1x.cfg]
-
-#10M xk
-adapter speed 10000
-
-program build/HELLO.elf
-
-reset run
-
-shutdown
-```
 
 
 
