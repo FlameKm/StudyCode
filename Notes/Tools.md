@@ -220,6 +220,34 @@ This is setting.json in vscode
     ],
 ```
 
+## GDB
+
+需要C/C++插件和GDB DEBUG插件
+
+```json
+    "configurations": [
+        {
+            "name": "kernel-debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "miDebuggerServerAddress": "127.0.0.1:1234", //gdb远程连接
+            "miDebuggerPath": "aarch64-linux-gnu-gdb", // 调试器路径
+            "program": "${workspaceFolder}/vmlinux", // 可执行文件
+            "args": [], // 附加参数
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}", // 工作目录
+            "environment": [],
+            "externalConsole": false,
+            "logging": {
+                "engineLogging": false
+            },
+            "MIMode": "gdb",
+        }
+    ]
+```
+
+
+
 # ToolChain
 
 ## Ninja

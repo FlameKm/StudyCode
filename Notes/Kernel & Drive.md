@@ -12,6 +12,29 @@
 
 qemu启动参数添加`-s -S`
 
+### GDB
+
+1. 对内核进行调试
+
+2. 加载符号表，使用下面脚本 ，在被调试端执行 `sudo ko-to-symbols.sh usb_f_uvc.ko`
+
+   其中，sudo ko-to-symbols.sh 就是下面脚本。
+
+```bash
+module_name="$(basename $1 .ko)"
+cd /sys/module/$module_name/sections
+echo -n add-symbol-file $1 `/bin/cat .text`
+for section in .[a-z]* *; do
+    if [ $section != ".text" ]; then
+echo -n " -s" $section `/bin/cat $section` 
+    fi
+done
+echo
+
+```
+
+3. 将得到的信息全部复制到主机gdb面板中，即可调试gdb
+
 ## 内核变更
 
 ### 删除内核
@@ -173,4 +196,20 @@ cat /proc/interrupts
 #define IRQF_SHARED 0x00000080
 ```
 
-# 
+## 计时
+
+```c
+#include <linux/time.h>
+#include <linux/timekeeping.h>
+...
+struct timespec64 ts_start, ts_end, ts_delta;
+
+ktime_get_boottime_ts64(&ts_start);
+// do something
+ktime_get_boottime_ts64(&ts_end);
+ts_delta = timespec64_sub(ts_end,ts_start);
+printk("hyc xxx test: %d", timespec64_to_ns(&ts_delta));
+```
+
+
+
