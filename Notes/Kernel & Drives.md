@@ -18,7 +18,7 @@ qemu启动参数添加`-s -S`
 
 2. 加载符号表，使用下面脚本 ，在被调试端执行 `sudo ko-to-symbols.sh usb_f_uvc.ko`
 
-   其中，sudo ko-to-symbols.sh 就是下面脚本。
+   其中，ko-to-symbols.sh 就是下面脚本。
 
 ```bash
 module_name="$(basename $1 .ko)"

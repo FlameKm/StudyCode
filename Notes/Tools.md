@@ -84,7 +84,17 @@ https://github.com/search?q=fcitx5+theme&type=Repositories
 
 zsh-syntax-highlighting 高亮
 
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
 zsh-autosuggestions 自动补全
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+
 
 5. 配置习惯
 
