@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "drive"
+		},
+		{
+			"path": "100ask"
+		},
+		{
+			"path": "../kernel/Linux-5.4"
+		}
+	],
+	"settings": {
+		"scm.autoReveal": false
+	}
+}
