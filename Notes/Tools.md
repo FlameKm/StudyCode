@@ -16,7 +16,7 @@ sudo apt install fcitx5
 im-config
 ```
 
-选择`fcitx 5`
+选择 `fcitx 5`
 
 打开配置添加
 
@@ -24,7 +24,7 @@ im-config
 
 3. 美化
 
-https://github.com/search?q=fcitx5+theme&type=Repositories
+https://github.com/search?q = fcitx5+theme&type = Repositories
 
 ## 截图
 
@@ -73,10 +73,10 @@ https://github.com/search?q=fcitx5+theme&type=Repositories
 3. 主题
 
    ```bash
-   # ZSH_THEME="robbyrussell"
-   # ZSH_THEME="random"
-   # ZSH_THEME="refined"
-   # ZSH_THEME="jtriley"
+   # ZSH_THEME = "robbyrussell"
+   # ZSH_THEME = "random"
+   # ZSH_THEME = "refined"
+   # ZSH_THEME = "jtriley"
    ZSH_THEME="pygmalion-virtualenv"
    ```
 
@@ -155,7 +155,7 @@ ssh 到指定端口 ``ssh xx user@ip``
 
 ``sudo vim /etc/ssh/sshd_config``
 
-PermitRootLogin yes改为no
+PermitRootLogin yes 改为 no
 
 - 重启
 
@@ -165,15 +165,15 @@ PermitRootLogin yes改为no
 
 ssh-keygen
 
-- 删除旧的连接认证,重新生成新的
+- 删除旧的连接认证, 重新生成新的
 
 ``ssh-keygen -R +输入服务器的IP``
 
-一个key对应一个，需要连接的对应上就行
+一个 key 对应一个，需要连接的对应上就行
 
 ### 使用公钥
 
-原理：如果使用私钥`id_rsa`登录服务器时候，服务器会检查所登录的用户的`~/.ssh/authorized_keys`里搜索是否存在本地的`id_rsa.pub`文本，存在的话则允许登录。
+原理：如果使用私钥 `id_rsa` 登录服务器时候，服务器会检查所登录的用户的 `~/.ssh/authorized_keys` 里搜索是否存在本地的 `id_rsa.pub` 文本，存在的话则允许登录。
 
 ```shell
 mkdir .ssh
@@ -193,7 +193,7 @@ https://blog.csdn.net/deephacking/article/details/134108938
 
 ## 桌面图标
 
-创建桌面图标文件,以clion举例，需要注意的有Exec、Icon
+创建桌面图标文件, 以 clion 举例，需要注意的有 Exec、Icon
 
 `sudo gedit /usr/share/applictions/clion.desktop`
 
@@ -210,7 +210,19 @@ Categories=Application;
 
 重启后加载
 
+## Typora Plugin
 
+地址：https://github.com/obgnail/typora_plugin
+
+使用 **方法二** 安装
+
+1. *[下载](https://github.com/obgnail/typora_plugin/releases/latest) 插件源码的压缩包，并解压。*
+2. *进入 Typora 安装路径，找到包含 `window.html` 的文件夹 A（一般是 `Typora/resources/window.html` 或者 `Typora/resources/app/window.html`，推荐使用 everything 找一下）*
+3. *打开文件夹 A，将源码的 plugin 文件夹粘贴进该文件夹下。*
+4. *打开文件 `A/window.html`。搜索文件内容 `<script src="./app/window/frame.js" defer="defer"></script>` 或者 `<script src="./appsrc/window/frame.js" defer="defer"></script>`，并在 * *后面* * 加入 `<script src="./plugin/index.js" defer="defer"></script>`。保存。*
+5. *验证：重启 Typora，在正文区域点击鼠标右键，弹出右键菜单栏，如果能看到 `常用插件` 栏目，说明一切顺利。*
+
+ubuntu 的 apt 默认安装的位置为 /usr/share/typora/
 
 # VSCode
 
@@ -232,7 +244,7 @@ This is setting.json in vscode
 
 ## GDB
 
-需要C/C++插件和GDB DEBUG插件
+需要 C/C++插件和 GDB DEBUG 插件
 
 ```json
     "configurations": [
@@ -262,13 +274,13 @@ This is setting.json in vscode
 
 ## Ninja
 
-使用`cmake`生成`Ninja`工程文件
+使用 `cmake` 生成 `Ninja` 工程文件
 
 ```shell
 cmake -G Ninja ..
 ```
 
-使用ninja编译工程，会去检索当前目录下的build.ninja去构建
+使用 ninja 编译工程，会去检索当前目录下的 build.ninja 去构建
 
 ```shell
 ninja
@@ -296,23 +308,23 @@ ninja
 └── hello.h
 ```
 
-其中hello为一个简单的库
+其中 hello 为一个简单的库
 
-**外部cmake为**
+**外部 cmake 为**
 
 ```cmake
 PROJECT(HELLO)
 ADD_SUBDIRECTORY(lib bin) #lib为包含目录，bin为构建生成的目录
 ```
 
-**内部cmake为**
+**内部 cmake 为**
 
 ```cmake
 SET(LIBHELLO_SRC hello.cpp)
 ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
 ```
 
-此时直接执行cmake可以在build生成可执行程序
+此时直接执行 cmake 可以在 build 生成可执行程序
 
 **解析**
 
@@ -333,7 +345,7 @@ target_link_libraries(test libshow.a)
 
 ## **OpenOCD**
 
-**vscode使用openocd的方法链接：**
+**vscode 使用 openocd 的方法链接：**
 
 [**https://www.jianshu.com/p/ca26b2227a58**](https://www.jianshu.com/p/ca26b2227a58)
 
@@ -345,11 +357,11 @@ openocd -f openocd.cfg
 
 ![](media/image49.png)
 
-openocd会默认在当前路径搜索`openocd.cfg`如果有的话会执行此程序，除非使用命令-f指定。
+openocd 会默认在当前路径搜索 `openocd.cfg` 如果有的话会执行此程序，除非使用命令-f 指定。
 
 ### 进入后台
 
-比如使用MobaXterm
+比如使用 MobaXterm
 
 ![](media/image50.png)
 
@@ -368,21 +380,21 @@ exit
 openocd -f openocd.cfg -c 'program build/HELLO.elf reset exit'
 ```
 
-注意：这个方法需要指定`cfg`，也就是前面的`-f openocd.cfg`，这个必须要被包含，否则会导致初始化失败
+注意：这个方法需要指定 `cfg`，也就是前面的 `-f openocd.cfg`，这个必须要被包含，否则会导致初始化失败
 
 ### 更简单的方法（本地）
 
-openocd.cfg配置文件里面能够写入执行程序，比如reset run shutdown等
+openocd.cfg 配置文件里面能够写入执行程序，比如 reset run shutdown 等
 
-值得注意的是，如果使用这个方法并写入`shutdown`，只是烧录程序，没办法调试。
+值得注意的是，如果使用这个方法并写入 `shutdown`，只是烧录程序，没办法调试。
 
 比如烧录程序的例子
 
 ```shell
-#选择cmsis-dap
+择 cmsis-dap
 adapter driver cmsis-dap
 
-#swd模式
+#swd 模式
 transport select swd
 
 source [find target/stm32f1x.cfg]
@@ -407,38 +419,38 @@ shutdown
 | ----------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------- |
 | -b, -m                                                      | Ignored for compatibility.                        | 为了兼容性而忽略。                          |
 | -B, --always-make                                           | Unconditionally make all targets.                 | 无条件地构建所有目标。                      |
-| -C DIRECTORY                                                | Change to DIRECTORY before doing anything.        | 在执行任何操作之前切换到DIRECTORY目录。     |
+| -C DIRECTORY                                                | Change to DIRECTORY before doing anything.        | 在执行任何操作之前切换到 DIRECTORY 目录。     |
 | -d                                                          | Print lots of debugging information.              | 打印大量调试信息。                          |
-| --debug[=FLAGS]                                             | Print various types of debugging information.     | 打印各种类型的调试信息。                    |
-| -e, --environment-overrides                                 | Environment variables override makefiles.         | 环境变量覆盖makefiles中的定义。             |
-| -f FILE, --file=FILE, --makefile=FILE                       | Read FILE as a makefile.                          | 以FILE作为makefile读取。                    |
+| --debug [= FLAGS]                                             | Print various types of debugging information.     | 打印各种类型的调试信息。                    |
+| -e, --environment-overrides                                 | Environment variables override makefiles.         | 环境变量覆盖 makefiles 中的定义。             |
+| -f FILE, --file = FILE, --makefile = FILE                       | Read FILE as a makefile.                          | 以 FILE 作为 makefile 读取。                    |
 | -h, --help                                                  | Print this message and exit.                      | 打印此消息并退出。                          |
 | -i, --ignore-errors                                         | Ignore errors from commands.                      | 忽略命令中的错误。                          |
-| -I DIRECTORY                                                | Search DIRECTORY for included makefiles.          | 在DIRECTORY中搜索包含的makefile。           |
-| -j [N], --jobs[=N]                                          | Allow N jobs at once; infinite jobs with no arg.  | 允许同时进行N个作业；不带参数表示无限作业。 |
+| -I DIRECTORY                                                | Search DIRECTORY for included makefiles.          | 在 DIRECTORY 中搜索包含的 makefile。           |
+| -j [N], --jobs [= N]                                          | Allow N jobs at once; infinite jobs with no arg.  | 允许同时进行 N 个作业；不带参数表示无限作业。 |
 | -k, --keep-going                                            | Keep going when some targets can't be made.       | 在某些目标无法构建时继续。                  |
-| -l [N], --load-average[=N], --max-load[=N]                  | Don't start multiple jobs unless load is below N. | 除非负载低于N，否则不启动多个作业。         |
+| -l [N], --load-average [= N], --max-load [= N]                  | Don't start multiple jobs unless load is below N. | 除非负载低于 N，否则不启动多个作业。         |
 | -L, --check-symlink-times                                   | Use the latest mtime between symlinks and target. | 在符号链接和目标之间使用最新的修改时间。    |
 | -n, --just-print, --dry-run, --recon                        | Don't actually run any commands; just print them. | 不实际运行任何命令；仅打印命令。            |
-| -o FILE, --old-file=FILE, --assume-old=FILE                 | Consider FILE to be very old and don't remake it. | 将FILE视为非常旧，不重新构建。              |
-| -p, --print-data-base                                       | Print make's internal database.                   | 打印make的内部数据库。                      |
+| -o FILE, --old-file = FILE, --assume-old = FILE                 | Consider FILE to be very old and don't remake it. | 将 FILE 视为非常旧，不重新构建。              |
+| -p, --print-data-base                                       | Print make's internal database.                   | 打印 make 的内部数据库。                      |
 | -q, --question                                              | Run no commands; exit status says if up to date.  | 不执行任何命令；退出状态表示是否为最新。    |
 | -r, --no-builtin-rules                                      | Disable the built-in implicit rules.              | 禁用内置的隐含规则。                        |
 | -R, --no-builtin-variables                                  | Disable the built-in variable settings.           | 禁用内置的变量设置。                        |
 | -s, --silent, --quiet                                       | Don't echo commands.                              | 不回显命令。                                |
-| -S, --no-keep-going, --stop                                 | Turns off -k.                                     | 关闭-k选项。                                |
+| -S, --no-keep-going, --stop                                 | Turns off -k.                                     | 关闭-k 选项。                                |
 | -t, --touch                                                 | Touch targets instead of remaking them.           | 触摸目标，而不是重新构建。                  |
-| -v, --version                                               | Print the version number of make and exit.        | 打印make的版本号并退出。                    |
+| -v, --version                                               | Print the version number of make and exit.        | 打印 make 的版本号并退出。                    |
 | -w, --print-directory                                       | Print the current directory.                      | 打印当前目录。                              |
-| --no-print-directory                                        | Turn off -w, even if it was turned on implicitly. | 关闭-w选项，即使它是隐含开启的。            |
-| -W FILE, --what-if=FILE, --new-file=FILE, --assume-new=FILE | Consider FILE to be infinitely new.               | 将FILE视为无限新。                          |
+| --no-print-directory                                        | Turn off -w, even if it was turned on implicitly. | 关闭-w 选项，即使它是隐含开启的。            |
+| -W FILE, --what-if = FILE, --new-file = FILE, --assume-new = FILE | Consider FILE to be infinitely new.               | 将 FILE 视为无限新。                          |
 | --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
 
 # Other
 
 
 
-## DOCKER容器
+## DOCKER 容器
 
 ### 添加容器
 
@@ -448,7 +460,7 @@ shutdown
 docker run --restart always -d --name=OpenWRT --network macnet --privileged unifreq/openwrt-aarch64 /sbin/init
 ```
 
-名字：`OpenWRT` 使用网络模式：`macnet `镜像名字：`unifreq/openwrt-aarch64`
+名字：`OpenWRT` 使用网络模式：`macnet ` 镜像名字：`unifreq/openwrt-aarch64`
 
 ### 进入容器
 
@@ -471,10 +483,10 @@ doker ps
 ### **镜像**
 
 ```shell
-# 拉取镜像
+拉取镜像
 docker pull xxx:tag
 
-# 镜像保存为tar
+# 镜像保存为 tar
 docker save -o xxx.tar xxx:tag
 
 # 导入本地镜像

@@ -4,13 +4,13 @@
 
 ### KGDB
 
-1. 内核配置中打开KGDB
-2. 启动参数添加`kgdb=ttyS0,115200`(举例)，`waitgdb`
-3. 使用交叉工具链的gdb或者gdb-multiarch，加载vmlinux，连接内核。
+1. 内核配置中打开 KGDB
+2. 启动参数添加 `kgdb=ttyS0,115200`(举例)，`waitgdb`
+3. 使用交叉工具链的 gdb 或者 gdb-multiarch，加载 vmlinux，连接内核。
 
 **QEMU**
 
-qemu启动参数添加`-s -S`
+qemu 启动参数添加 `-s -S`
 
 ### GDB
 
@@ -33,7 +33,7 @@ echo
 
 ```
 
-3. 将得到的信息全部复制到主机gdb面板中，即可调试gdb
+3. 将得到的信息全部复制到主机 gdb 面板中，即可调试 gdb
 
 ## 内核变更
 
@@ -84,29 +84,112 @@ make install # 更新内核
 
 卸载 `rmmod xxx` or  `modprobe -r xxx`
 
-编译内核选项中，`-m`表示动态模块，`-y`表示编译进内核
+编译内核选项中，`-m` 表示动态模块，`-y` 表示编译进内核
+
+## POLL
+
+参考链接：https://cloud.tencent.com/developer/article/1708996
+
+实现一定时间内等待响应。
+
+驱动里一般做两件事
+
+1. 把当前线程挂如队列，poll_wait
+
+APP 调用一次 poll，可能导致 drv_poll 被调用 2 次，但是我们并不需要把当前线程挂入队列 2 次。 可以使用内核的函数 poll_wait 把线程挂入队列，如果线程已经在队列里了，它就不会再次挂入。
+
+2. 返回设备状态
+
+APP 调用 poll 函数时，有可能是查询“有没有数据可以读”：POLLIN，也有可能是查询“你有没有空间给我写数据”：POLLOUT。 所以 drv_poll 要返回自己的当前状态：(POLLIN | POLLRDNORM) 或 (POLLOUT | POLLWRNORM)。
+
+应用程序一般调用 poll、select、epoll。
+
+在调用 poll 函数时，要指明监测的文件、判断的状态。
+
+```c
+struct pollfd fds[1];
+int timeout_ms = 5000;
+int ret;
+
+fds[0].fd = fd;
+fds[0].events = POLLIN;
+
+ret = poll(fds, 1, timeout_ms);
+if ((ret == 1) && (fds[0].revents & POLLIN))
+{
+    read(fd, &val, 4);
+    printf("get button : 0x%x\n", val);
+}
+```
+
+调用 select 时
+
+```c
+fd_set rdfds;   
+struct timeval tv;
+int rtn = 0;
+
+FD_ZERO(&rdfds);     //清空 fd_set
+FD_SET(fd, &rdfds);  //将要检测的 fd 描述符加入到 fd_set 集合中
+
+tv.tv_sec = 2;
+tv.tv_usec = 1000;      //设置超时时间为 2s+1ms
+
+rtn = select(fd+1, &rdfds, NULL, NULL, &tv);
+
+if(rtn < 0)
+    perror("select");
+else if(0 == rtn)
+    printf("timeout\n");
+else
+{
+    printf("rtn = %d\n", rtn);      //查看有多少个文件描述符发生了变化
+
+    if(FD_ISSET(socket, &rdfds))    //判断下这个 socket 是否状态真的变成了可读
+    {
+        recv(...);
+    }
+}
+```
+
+
+
+## EVENT
+
+| POLLIN     | 有数据可读                                                   |
+| ---------- | ------------------------------------------------------------ |
+| POLLRDNORM | 等同于 POLLIN                                                 |
+| POLLRDBAND | Priority band data can be read，有优先级较较高的“band data”可读 |
+|            | Linux 系统中很少使用这个事件                                  |
+| POLLPRI    | 高优先级数据可读                                             |
+| POLLOUT    | 可以写数据                                                   |
+| POLLWRNORM | 等同于 POLLOUT                                                |
+| POLLWRBAND | Priority data may be written                                 |
+| POLLERR    | 发生了错误                                                   |
+| POLLHUP    | 挂起                                                         |
+| POLLNVAL   | 无效的请求，一般是 fd 未 open                                   |
 
 # System
 
-## **GPIO子系统**
+## **GPIO 子系统**
 
-### 查看gpio使用状态
+### 查看 gpio 使用状态
 
 ```shell
 cat /sys/kernel/debug/gpio
 ```
 
-### 确定GPIO引脚的编号
+### 确定 GPIO 引脚的编号
 
-① 先在开发板的`/sys/class/gpio`目录下，找到各个`gpiochipXXX`目录：
+① 先在开发板的 `/sys/class/gpio` 目录下，找到各个 `gpiochipXXX` 目录：
 
 ![](/home/hyc/Project/StudyCode/Notes/media/image33.png)
 
-② 然后进入某个`gpiochipXXX`目录，查看文件`label`的内容，就可以知道起始号码XXX对于哪组GPIO
+② 然后进入某个 `gpiochipXXX` 目录，查看文件 `label` 的内容，就可以知道起始号码 XXX 对于哪组 GPIO
 
-### shell控制
+### shell 控制
 
-以引脚编号为110为例.
+以引脚编号为 110 为例.
 
 ```shell
 echo 110 > /sys/class/gpio/export ## gpio_request
@@ -115,7 +198,7 @@ cat /sys/class/gpio/gpio110/value ## gpio_get_value
 echo 110 > /sys/class/gpio/unexport ## gpio_free
 ```
 
-对于输出,以N为例
+对于输出, 以 N 为例
 
 ```shell
 echo 104> /sys/class/gpio/export
@@ -124,11 +207,11 @@ echo 1 > /sys/class/gpio/gpio104/value
 echo 104> /sys/class/gpio/unexport
 ```
 
-### GPIO子系统函数
+### GPIO 子系统函数
 
 | **descriptor-based**       | **legacy**            |
 | -------------------------- | --------------------- |
-| **获得GPIO**               |                       |
+| **获得 GPIO**               |                       |
 | **gpiod_get**              | gpio_request          |
 | **gpiod_get_index**        |                       |
 | **gpiod_get_array**        | gpio_request_array    |
@@ -141,7 +224,7 @@ echo 104> /sys/class/gpio/unexport
 | **读值、写值**             |                       |
 | **gpiod_get_value**        | gpio_get_value        |
 | **gpiod_set_value**        | gpio_set_value        |
-| **释放GPIO**               |                       |
+| **释放 GPIO**               |                       |
 | **gpio_free**              | gpio_free             |
 | **gpiod_put**              | gpio_free_array       |
 | **gpiod_put_array**        |                       |
@@ -172,7 +255,7 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,con
 
 ### 获取中断号
 
-gpio子系统中：
+gpio 子系统中：
 
 ```c
 int gpio_to_irq(unsigned int gpio);
@@ -198,7 +281,7 @@ cat /proc/interrupts
 
 ## 计时
 
-新内核6.x.x
+新内核 6.x.x
 
 ```c
 #include <linux/time.h>
@@ -216,7 +299,7 @@ printk("hyc xxx test: %d", timespec64_to_ns(&ts_delta));
 新旧内核
 
 ```bash
-#include <linux/time.h>
+nclude <linux/time.h>
 ...
 uint64_t start,end;
 
@@ -226,7 +309,7 @@ end = ktime_get_ns();
 printf("hyc xxx test: %d", end - start);
 ```
 
-还有一些封装好的api直接获取time
+还有一些封装好的 api 直接获取 time
 
 `ktime_get_ts`
 

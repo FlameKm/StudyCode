@@ -2,7 +2,7 @@
 
 ## 个人理解
 
-Zephyr操作系统类似一个单片机开发IDE，代码具有高耦合度，与硬件高解耦。能够提高代码的复用率，大概的实现方式是，将代码层面使用设备树进行管理硬件，通过cmake（或者其它）工具将设备树文件转换为一个头文件，其中包含了不同的硬件使用的不同的宏，比如STM32中GPIO 的port、pin，从而实现代码的解耦。
+Zephyr 操作系统类似一个单片机开发 IDE，代码具有高耦合度，与硬件高解耦。能够提高代码的复用率，大概的实现方式是，将代码层面使用设备树进行管理硬件，通过 cmake（或者其它）工具将设备树文件转换为一个头文件，其中包含了不同的硬件使用的不同的宏，比如 STM32 中 GPIO 的 port、pin，从而实现代码的解耦。
 
 优点：
 
@@ -10,7 +10,7 @@ Zephyr操作系统类似一个单片机开发IDE，代码具有高耦合度，�
 
 - 设备树管理
 
-- 开发方式与linux较为相似。
+- 开发方式与 linux 较为相似。
 
 缺点：
 
@@ -24,10 +24,10 @@ Zephyr操作系统类似一个单片机开发IDE，代码具有高耦合度，�
 
 <https://docs.zephyrproject.org/latest/develop/getting_started/index.html>
 
-#### python虚拟环境
+#### python 虚拟环境
 
 ```shell
-#安装
+装
 sudo apt install python3-venv
 
 #创建
@@ -62,11 +62,11 @@ cmake -Bbuild -GNinja -DBOARD=stm32f103_mini samples/basic/blinky
 ninja -Cbuild
 ```
 
-cmake的解释
+cmake 的解释
 
 `-B` 生成目录
 
-`-G`构建工具
+`-G` 构建工具
 
 `-DBOARD` 为了确定设备树
 
@@ -80,7 +80,7 @@ west flash
 ninja flash
 ```
 
-这个是配置在build.ninja的脚本，如果使用make的话就是makefile里
+这个是配置在 build.ninja 的脚本，如果使用 make 的话就是 makefile 里
 
 
 
@@ -112,7 +112,7 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
 
 - 类型：`k_timer`
 
-- 定义：`k_timer_init` or`K_TIMER_DEFINE`
+- 定义：`k_timer_init` or `K_TIMER_DEFINE`
 
 - 启动：`k_timer_start`
 
@@ -122,37 +122,37 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
 
   ![](media/image63.png)
 
-  如果不需要可以指定为`NULL`
+  如果不需要可以指定为 `NULL`
 
   ![](media/image64.png)
 
   ![](media/image65.png)
 
-  `duration`:指定计时器第一次到期之前的时间间隔的持续时间。
+  `duration`: 指定计时器第一次到期之前的时间间隔的持续时间。
 
-  `period`:指定第一个计时器到期后所有计时器到期之间的时间间隔的周期
+  `period`: 指定第一个计时器到期后所有计时器到期之间的时间间隔的周期
 
-  例如，如果计时器以200的持续时间和75的周期启动，它将首先在200ms后过期，然后每75ms过期一次。
+  例如，如果计时器以 200 的持续时间和 75 的周期启动，它将首先在 200ms 后过期，然后每 75ms 过期一次。
 
 **举例**：
 
 ### 计时器
 
-1.  调用`timing_init()`来初始化定时器。
+1.  调用 `timing_init()` 来初始化定时器。
 
-2.  调用`timing_start()`以发出开始收集计时信息的信号。这通常会启动计时器。
+2.  调用 `timing_start()` 以发出开始收集计时信息的信号。这通常会启动计时器。
 
-3.  调用`timing_counter_get()`来标记代码执行的开始。
+3.  调用 `timing_counter_get()` 来标记代码执行的开始。
 
-4.  调用`timing_counter_get()`来标记代码执行结束。
+4.  调用 `timing_counter_get()` 来标记代码执行结束。
 
-5.  调用`timing_cycles_get()`来获取代码执行开始和结束之间的定时器周期数。
+5.  调用 `timing_cycles_get()` 来获取代码执行开始和结束之间的定时器周期数。
 
-6.  使用总周期数调用`timing_cycles_to_ns()`，将周期数转换为纳秒。
+6.  使用总周期数调用 `timing_cycles_to_ns()`，将周期数转换为纳秒。
 
 7.  重复步骤 3 以收集其他代码块的计时信息。
 
-8.  调用`timing_stop()`以发出计时信息收集结束的信号。这通常会停止计时器。
+8.  调用 `timing_stop()` 以发出计时信息收集结束的信号。这通常会停止计时器。
 
 ### 时间转换
 
@@ -170,32 +170,32 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
 
 **总结**
 
-- DeviceTree本身的语法只提供了一个基于总线主从关系的树形层次结构，此外每个节点可以用属性来存储信息。语法本身并没有规定硬件要如何描述。
-- DeviceTree中的一些常见属性，补充了这方面的空缺。
-  - reg、ranges、#address-cells、 #size-cells这四个属性描述了总线上的地址分配
-  - status属性描述了设备是否使能
-  - compatible属性描述了设备的兼容性
-- 在DeviceTree中，除了本身的树形结构以外，还具有一些逻辑上的树形结构，称为域。域具有控制器和设备节点，控制器是真正实现域的功能的硬件外设，而设备节点只是为了开发方便解耦而进行的一种抽象。
-- 真正限制device tree中属性该如何写的，是device binding文件。binding文件是芯片厂商提供的。有了binding文件，就可以在Vs Code中实现自动的检查与补全。Zephyr实际构建项目时，也是参考binding文件来检查dts的正确性。只有dts按照正确的规则写了，zephyr的驱动代码才能识别到硬件配置，进行自动初始化。
-- zephyr中会有一些特殊的虚拟节点来为开发提供便利。
+- DeviceTree 本身的语法只提供了一个基于总线主从关系的树形层次结构，此外每个节点可以用属性来存储信息。语法本身并没有规定硬件要如何描述。
+- DeviceTree 中的一些常见属性，补充了这方面的空缺。
+  - reg、ranges、#address-cells、 #size-cells 这四个属性描述了总线上的地址分配
+  - status 属性描述了设备是否使能
+  - compatible 属性描述了设备的兼容性
+- 在 DeviceTree 中，除了本身的树形结构以外，还具有一些逻辑上的树形结构，称为域。域具有控制器和设备节点，控制器是真正实现域的功能的硬件外设，而设备节点只是为了开发方便解耦而进行的一种抽象。
+- 真正限制 device tree 中属性该如何写的，是 device binding 文件。binding 文件是芯片厂商提供的。有了 binding 文件，就可以在 Vs Code 中实现自动的检查与补全。Zephyr 实际构建项目时，也是参考 binding 文件来检查 dts 的正确性。只有 dts 按照正确的规则写了，zephyr 的驱动代码才能识别到硬件配置，进行自动初始化。
+- zephyr 中会有一些特殊的虚拟节点来为开发提供便利。
 
 ### 节点
 
-要想在代码中访问到DeviceTree中的信息，需要通过`DeviceTree API`来实现
+要想在代码中访问到 DeviceTree 中的信息，需要通过 `DeviceTree API` 来实现
 
 ```c
 #include <zephyr/devicetree.h>
 ```
 
-为了获得某个节点的属性，首先需要这个节点的id (node identifier)来作为句柄。节点id本质上就是devicetree generated.h中的宏定义。
-获得节点id的方式有很多
+为了获得某个节点的属性，首先需要这个节点的 id (node identifier)来作为句柄。节点 id 本质上就是 devicetree generated.h 中的宏定义。
+获得节点 id 的方式有很多
 
 | 获取方式            | 示例                          | 说明                                                  |
 | ------------------- | ----------------------------- | ----------------------------------------------------- |
-| 根节点              | DT_ROOT                       | 根节点id                                              |
+| 根节点              | DT_ROOT                       | 根节点 id                                              |
 | soc_serial_40001000 | DT_PATH(soc, serial_40001000) | /soc/serial@40001000                                  |
-| Label               | DT_NODELABEL(serial1)         | 根据dts中定义的label来找到节点                        |
-| chosen节点          | DT_CHOSEN(zephyr_console)     | 根据dts中chosen节点的配置:<br />zephyr,console=&uart0 |
+| Label               | DT_NODELABEL(serial1)         | 根据 dts 中定义的 label 来找到节点                        |
+| chosen 节点          | DT_CHOSEN(zephyr_console)     | 根据 dts 中 chosen 节点的配置: <br /> zephyr, console =&uart0 |
 
 参考地址：https://docs.zephyrproject.org/latest/build/dts/api/api.html#generic-apis
 
@@ -229,7 +229,7 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
    DT_PROP(DT_PATH(soc, serial_40001000), current_speed)
    ```
 
-   获取到数值115200
+   获取到数值 115200
 
 3. **DT_NODELABEL**
 
@@ -246,7 +246,7 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
    };
    ```
 
-   此时可以使用**DT_NODELABEL(serial1)**获取当前节点
+   此时可以使用 **DT_NODELABEL(serial1)** 获取当前节点
 
    注意这里字符串 `UART_0` 不是节点标签；它是名为 label 的属性的值。
 
@@ -256,7 +256,7 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
    DT_PROP(DT_NODELABEL(serial1), current_speed) // 115200
    ```
 
-   同样是获取115200
+   同样是获取 115200
 
 4. **DT_ALIAS(alias)**
 
@@ -268,7 +268,7 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
    };
    ```
 
-   此时，可以使用**DT_ALIAS(my_serial)**节点
+   此时，可以使用 **DT_ALIAS(my_serial)** 节点
 
 5. **DT_INST**
 
@@ -299,17 +299,17 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
    禁用的节点分配最大的标签
 
    ```c
-   // 表示的是serial1或者serial2无法确定
+   // 表示的是 serial1 或者 serial2 无法确定
    DT_INST(0, vnd_soc_serial)
    DT_INST(1, vnd_soc_serial)
    
-   // 表示的一定是serial1
+   // 表示的一定是 serial1
    DT_INST(2, vnd_soc_serial)
    ```
 
 6. **DT_PARENT | DT_GPARENT | DT_CHILD**
 
-   获取父节点的节点标识符,获取祖父节点，获取子节点
+   获取父节点的节点标识符, 获取祖父节点，获取子节点
 
 7. **DT_NODE_PATH**
 
@@ -349,21 +349,21 @@ Zephyr 使用的调度算法主要是多级反馈队列（Multilevel Feedback Qu
 
 - /pinctrl
 
-- /zephyr,user 无需写device就可以使用，方便用户开发的节点
+- /zephyr, user 无需写 device 就可以使用，方便用户开发的节点
 
 可以直接在根节点中，不属于标准硬件节点
 
 ### 设备
 
 ```c
-DEVICE_DT_GET(node id); //通过node id获取device
-DEVICEDT_GET_ANY(compat); //通过compatible获取device
-DEVICEDT_GET_ONE(compat); //通过compatible获取device
-DEVICE_GET(name); //通过name (label属性) 获取device
-DEVICE_DT_GET_ORNULL(nodeid); //判断节点是否okey状态
+DEVICE_DT_GET(node id); //通过 node id 获取 device
+DEVICEDT_GET_ANY(compat); //通过 compatible 获取 device
+DEVICEDT_GET_ONE(compat); //通过 compatible 获取 device
+DEVICE_GET(name); //通过 name (label 属性) 获取 device
+DEVICE_DT_GET_ORNULL(nodeid); //判断节点是否 okey 状态
 
-device_get_binding(name); //通过name (label属性) 获取device
-device_is_ready(device); //判断device结构是否可以使用
+device_get_binding(name); //通过 name (label 属性) 获取 device
+device_is_ready(device); //判断 device 结构是否可以使用
 ```
 
 
@@ -372,7 +372,7 @@ device_is_ready(device); //判断device结构是否可以使用
 
 **原文**
 
-The recommended format is `"vendor, device" `, like `"avago, apds99a"` , or a sequence of these, like`"ti,hdc", "ti,hdc101e" `. The `vendor` part is an abbreviated name of the vendor. The file dts/bindings/vendor-prefixes.txt contains a list of commonly accepted `vendor` names. The` device` part is usually taken from the datasheet.
+The recommended format is `"vendor, device" `, like `"avago, apds99a"` , or a sequence of these, like `"ti,hdc", "ti,hdc101e" `. The `vendor` part is an abbreviated name of the vendor. The file dts/bindings/vendor-prefixes.txt contains a list of commonly accepted `vendor` names. The ` device` part is usually taken from the datasheet.
 
 **翻译**
 
@@ -383,7 +383,7 @@ The recommended format is `"vendor, device" `, like `"avago, apds99a"` , or a se
 **原文**
 
 
-lt is also sometimes a value like `gpio-keys` ,` mmio-sram`, or` fixed-clock` when the hardware's behavioris generic.
+lt is also sometimes a value like `gpio-keys` , ` mmio-sram`, or ` fixed-clock` when the hardware's behavioris generic.
 
 **翻译**
 
@@ -393,27 +393,27 @@ lt is also sometimes a value like `gpio-keys` ,` mmio-sram`, or` fixed-clock` wh
 
 reg
 Information used to address the device. The value is specific to the device (ie. is different dependingon the compatible property).
-The `reg` property is a sequence of `(address, length) `pairs. Each pair is called a "register block".
+The `reg` property is a sequence of `(address, length) ` pairs. Each pair is called a "register block".
 Values are conventionally written in hex.
 Here are some common patterns!
 
-- Devices accessed via memory-mapped l/0 registers (like` i2c@4eea3eee` ): `address` is usually thebase address of the l/0 register space, and `length` is the number of bytes occupied by the registers.
+- Devices accessed via memory-mapped l/0 registers (like ` i2c@4eea3eee` ): `address` is usually thebase address of the l/0 register space, and `length` is the number of bytes occupied by the registers.
 
-- 12C devices (like `apds996e@39` and its siblings): `address` is a slave address on the l2C bus. There isno`length` value.
+- 12C devices (like `apds996e@39` and its siblings): `address` is a slave address on the l2C bus. There isno `length` value.
 
 - SPI devices: `address` is a chip select line number; there is no `length`
 
 
 
-i2c40003000是芯片中的iic地址
+i2c40003000 是芯片中的 iic 地址
 
-下面的是iic总线上的设备地址
+下面的是 iic 总线上的设备地址
 
-一般涉及芯片的操作都是在soc节点下的。
+一般涉及芯片的操作都是在 soc 节点下的。
 
 ### 绑定
 
-zephyr build system会从以下位置寻找绑定文件
+zephyr build system 会从以下位置寻找绑定文件
 
 - zephyr/dts/bindings/
 
@@ -421,7 +421,7 @@ zephyr build system会从以下位置寻找绑定文件
 
 - ${project_dir}/dts/bindings/
 
-也可以在cmake文件中添加
+也可以在 cmake 文件中添加
 
 ```cmake
  list(APPEND DTS_ROOT /path/to/your/dts)
@@ -435,13 +435,13 @@ zephyr build system会从以下位置寻找绑定文件
 west build -b <board_name> -- -DTS_ROOT=<path/to/your/dts>
 ```
 
-如果自定义设备类型，可以把yaml文件添加到以上位置
+如果自定义设备类型，可以把 yaml 文件添加到以上位置
 
-文件名推荐和`compatible`一致，但不是必须的
+文件名推荐和 `compatible` 一致，但不是必须的
 
 ## **信号（原子操作）**
 
-### 信号量Semaphores
+### 信号量 Semaphores
 
 <https://docs.zephyrproject.org/latest/kernel/services/synchronization/semaphores.html>
 
@@ -473,7 +473,7 @@ if (k_sem_take(&my_sem, K_MSEC(50)) != 0) {
 }
 ```
 
-### 互斥量Mutexes
+### 互斥量 Mutexes
 
 <https://docs.zephyrproject.org/latest/kernel/services/synchronization/mutexes.html>
 
@@ -497,9 +497,9 @@ if (k_sem_take(&my_sem, K_MSEC(50)) != 0) {
   }
   ```
 
-### 互斥量Futex
+### 互斥量 Futex
 
-地址同互斥量Mutex
+地址同互斥量 Mutex
 
 k_futex 是一个轻量级互斥原语，旨在最大限度地减少内核参与。无竞争操作仅依赖于对共享内存的原子访问。 k_futex 作为内核对象进行跟踪，并且可以驻留在用户内存中，以便任何访问都绕过内核对象权限管理机制。
 
@@ -570,7 +570,7 @@ Zephyr 中的队列是一个实现传统队列的内核对象，允许线程和 
 
 <https://docs.zephyrproject.org/latest/kernel/services/data_passing/fifos.html>
 
-FIFO 是一个内核对象，它实现**传统的先进先出** (FIFO) 队列，允许线程和 **ISR** 添加和删除任意大小的数据项。
+FIFO 是一个内核对象，它实现 **传统的先进先出** (FIFO) 队列，允许线程和 **ISR** 添加和删除任意大小的数据项。
 
 定义：`k_fifo_init or K_FIFO_DEFINE`
 
@@ -582,7 +582,7 @@ FIFO 是一个内核对象，它实现**传统的先进先出** (FIFO) 队列，
 
 ### LIFO（底层实现）
 
-LIFO 是一个内核对象，它实现传统的**后进先出** (LIFO) 队列，允许线程和 **ISR** 添加和删除任意大小的数据项。
+LIFO 是一个内核对象，它实现传统的 **后进先出** (LIFO) 队列，允许线程和 **ISR** 添加和删除任意大小的数据项。
 
 - 定义：`k_lifo_init` or `K_LIFO_DEFINE`
 
@@ -592,7 +592,7 @@ LIFO 是一个内核对象，它实现传统的**后进先出** (LIFO) 队列，
 
 - 判空：`k_lifo_is_empty`
 
-### 栈Stacks
+### 栈 Stacks
 
 地址：<https://docs.zephyrproject.org/latest/kernel/services/data_passing/stacks.html>
 
@@ -610,17 +610,17 @@ LIFO 是一个内核对象，它实现传统的**后进先出** (LIFO) 队列，
 
 - 
 
-### 消息队列MessageQueues
+### 消息队列 MessageQueues
 
 地址：[https://docs.zephyrproject.org/latest/kernel/services/data_passing/message_queues.html](https://docs.zephyrproject.org/latest/kernel/services/data_passing/message_queues.html#concepts)
 
 **使用消息队列以异步方式在线程之间传输小数据项。**
 
-是一个环形缓冲区，消息队列的**环形缓冲区必须与 N 字节边界对齐**，其中 N 是 2 的幂（即 1、2、4、8、...）。为了确保存储在环形缓冲区中的消息类似地与此边界对齐，数据项大小也必须是 N 的倍数。数据项可以通过线程或 **ISR** 发送到消息队列。
+是一个环形缓冲区，消息队列的 **环形缓冲区必须与 N 字节边界对齐**，其中 N 是 2 的幂（即 1、2、4、8、...）。为了确保存储在环形缓冲区中的消息类似地与此边界对齐，数据项大小也必须是 N 的倍数。数据项可以通过线程或 **ISR** 发送到消息队列。
 
 - 类型：`k_msgq`
 
-- 定义：`k_msgq_init` or`K_MSGQ_DEFINE`
+- 定义：`k_msgq_init` or `K_MSGQ_DEFINE`
 
 - 入队：`k_msgq_put`
 
@@ -650,7 +650,7 @@ K_MSGQ_DEFINE(my_msgq, sizeof(struct data_item_type), 10, 4);
 
 
 
-### 邮箱Mailboxes
+### 邮箱 Mailboxes
 
 地址：<https://docs.zephyrproject.org/latest/kernel/services/data_passing/mailboxes.html>
 
@@ -668,6 +668,6 @@ K_MSGQ_DEFINE(my_msgq, sizeof(struct data_item_type), 10, 4);
 
 管道是一个内核对象，允许线程将字节流发送到另一个线程。管道可用于同步传输全部或部分数据块。
 
-管道可以配置一个**环形缓冲区**，用于保存已发送但尚未接收的数据；或者，管道可以没有环形缓冲区。
+管道可以配置一个 **环形缓冲区**，用于保存已发送但尚未接收的数据；或者，管道可以没有环形缓冲区。
 
 **使用管道在线程之间发送数据流。**
