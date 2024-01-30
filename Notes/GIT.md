@@ -1,4 +1,4 @@
-# GIT版本控制
+# GIT 版本控制
 
 ## 常用命令
 
@@ -6,16 +6,16 @@
 | --------------------- | ------------------------------------------------------------ |
 | git init              | 创建为可管理仓库                                             |
 | git status            | 查看当前版本状态                                             |
-| git add               | 添加内容到仓库 一般``git add . ``表示全部添加                |
-| git commit            | 提交到本地仓库 需要添加注释 具体为``git commit -m “user commit`` |
+| git add               | 添加内容到仓库 一般 ``git add . `` 表示全部添加                |
+| git commit            | 提交到本地仓库 需要添加注释 具体为 ``git commit -m “user commit`` |
 | git remote add origin | 与网络仓库绑定 ``git remote add origin git@github.com:FlameKm/test.git`` |
-| git push              | 提交到网上 一般举例``git push origin master``                |
+| git push              | 提交到网上 一般举例 ``git push origin master``                |
 | git log               | 日志                                                         |
 | git clone             | 克隆到本地                                                   |
 
 ## 下载
 
-有些需要绑定,即``ssh key``
+有些需要绑定, 即 ``ssh key``
 
 使用命令
 
@@ -25,18 +25,18 @@ git clone
 
 ## 上传
 
-[如何使用git命令行上传项目到github_DreamMakers的博客-CSDN博客_git新建仓库上传代码](https://blog.csdn.net/majinggogogo/article/details/81152938)
+[如何使用 git 命令行上传项目到 github_DreamMakers 的博客-CSDN 博客_git 新建仓库上传代码](https://blog.csdn.net/majinggogogo/article/details/81152938)
 
-新建文件夹test
+新建文件夹 test
 
-在test内输入``git init``
+在 test 内输入 ``git init``
 
 ![](/home/hyc/Project/StudyCode/Notes/media/image58.png)
 
 放入代码
 
 ```shell
-#添加全部内容
+加全部内容
 git add . 
 
 #添加到本地仓库
@@ -55,13 +55,13 @@ git branch -M main
 git push -u origin main
 ```
 
-**在github新建一个仓库,与本地关联**
+**在 github 新建一个仓库, 与本地关联**
 
-**似乎需要github(或其它)ssh key绑定本地,否则不安全**
+**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**
 
 
 
-总结如下,GitHub新建文件夹时也会提醒
+总结如下, GitHub 新建文件夹时也会提醒
 
 ```shell
 git init
@@ -75,7 +75,7 @@ git push -u origin main
 ## 更新
 
 ```shell
-#检查变更
+查变更
 git status
 
 #更新全部修改到本地仓库 
@@ -90,9 +90,9 @@ git push origin master
 
 ## 版本回退
 
-[Git使用教程,最详细，最傻瓜，最浅显，真正手把手教 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/30044692)
+[Git 使用教程, 最详细，最傻瓜，最浅显，真正手把手教 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/30044692)
 
-## 子模块submodule
+## 子模块 submodule
 
 - 添加
 
@@ -112,13 +112,13 @@ git submodule init & git submodule update
 git clone --recurse-submodules <https://github.com/xxx/parent.git>
 ```
 
-  也可以设置`submodule.recurse`为`true`，这样每次拉去都是带这个参数的拉去`--recurse-submodules`
+  也可以设置 `submodule.recurse` 为 `true`，这样每次拉去都是带这个参数的拉去 `--recurse-submodules`
 
 - 删除：
 
 ```shell
 rm -rf 子模块目录 #删除子模块目录及源码
-vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目
+vi .gitmodules # 删除项目目录下.gitmodules 文件中子模块相关条目
 vi .git/config # 删除配置项中子模块相关条目
 rm .git/module/* #删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可
 
@@ -171,13 +171,13 @@ git rebase origin/main
 git push -u origin myfeature 
 ```
 
-## Commit撤销
+## Commit 撤销
 
-1. 只改变注释`git commit --amend` 
-2. 撤回到上一个分支 `git reset --soft HEAD^`， soft参数查看RESET章节, 
+1. 只改变注释 `git commit --amend` 
+2. 撤回到上一个分支 `git reset --soft HEAD^`， soft 参数查看 RESET 章节, 
 
 ## RESET
 
-- **--mixed**  不删除工作空间改动代码，撤销commit，并且撤销git add . 操作
-- **--soft** 不删除工作空间改动代码，撤销commit，不撤销git add . 
-- **--hard ** 删除工作空间改动代码，撤销commit，撤销git add . 
+- **--mixed**  不删除工作空间改动代码，撤销 commit，并且撤销 git add . 操作
+- **--soft** 不删除工作空间改动代码，撤销 commit，不撤销 git add . 
+- **--hard ** 删除工作空间改动代码，撤销 commit，撤销 git add . 
