@@ -18,7 +18,7 @@ qemu启动参数添加`-s -S`
 
 2. 加载符号表，使用下面脚本 ，在被调试端执行 `sudo ko-to-symbols.sh usb_f_uvc.ko`
 
-   其中，sudo ko-to-symbols.sh 就是下面脚本。
+   其中，ko-to-symbols.sh 就是下面脚本。
 
 ```bash
 module_name="$(basename $1 .ko)"
@@ -198,6 +198,8 @@ cat /proc/interrupts
 
 ## 计时
 
+新内核6.x.x
+
 ```c
 #include <linux/time.h>
 #include <linux/timekeeping.h>
@@ -211,5 +213,21 @@ ts_delta = timespec64_sub(ts_end,ts_start);
 printk("hyc xxx test: %d", timespec64_to_ns(&ts_delta));
 ```
 
+新旧内核
 
+```bash
+#include <linux/time.h>
+...
+uint64_t start,end;
 
+start = ktime_get_ns();
+// do something
+end = ktime_get_ns();
+printf("hyc xxx test: %d", end - start);
+```
+
+还有一些封装好的api直接获取time
+
+`ktime_get_ts`
+
+`ktime_get_ns`
