@@ -24,7 +24,9 @@ im-config
 
 3. 美化
 
-https://github.com/search?q = fcitx5+theme&type = Repositories
+[github]: https://github.com/search?q=fcitx5+theme&amp;type=Repositories
+
+ 
 
 ## 截图
 
@@ -94,7 +96,7 @@ zsh-autosuggestions 自动补全
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-
+~/.zshrc 处添加 `plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`
 
 5. 配置习惯
 
@@ -219,10 +221,18 @@ Categories=Application;
 1. *[下载](https://github.com/obgnail/typora_plugin/releases/latest) 插件源码的压缩包，并解压。*
 2. *进入 Typora 安装路径，找到包含 `window.html` 的文件夹 A（一般是 `Typora/resources/window.html` 或者 `Typora/resources/app/window.html`，推荐使用 everything 找一下）*
 3. *打开文件夹 A，将源码的 plugin 文件夹粘贴进该文件夹下。*
-4. *打开文件 `A/window.html`。搜索文件内容 `<script src="./app/window/frame.js" defer="defer"></script>` 或者 `<script src="./appsrc/window/frame.js" defer="defer"></script>`，并在 * *后面* * 加入 `<script src="./plugin/index.js" defer="defer"></script>`。保存。*
+4. 打开文件 `A/window.html`。搜索文件内容 `<script src="./app/window/frame.js" defer="defer"></script>` 或者 `<script src="./appsrc/window/frame.js" defer="defer"></script>`，并在后面加入 `<script src="./plugin/index.js" defer="defer"></script>` 保存。
 5. *验证：重启 Typora，在正文区域点击鼠标右键，弹出右键菜单栏，如果能看到 `常用插件` 栏目，说明一切顺利。*
 
 ubuntu 的 apt 默认安装的位置为 /usr/share/typora/
+
+```bash 
+git clone https://github.com/obgnail/typora_plugin.git
+sudo cp -r typora_plugin/plugin /usr/share/typora/resources/
+sudo gedit /usr/share/typora/resources/window.html
+```
+
+
 
 # VSCode
 
