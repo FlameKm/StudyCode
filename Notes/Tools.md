@@ -239,6 +239,14 @@ sudo gedit /usr/share/typora/resources/window.html
 
 
 
+
+```bash 
+git clone https://github.com/obgnail/typora_plugin.git
+sudo cp -r typora_plugin/plugin /usr/share/typora/resources/
+sudo gedit /usr/share/typora/resources/window.html
+```
+
+
 # VSCode
 
 ## clangd
