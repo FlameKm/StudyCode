@@ -1103,6 +1103,25 @@ Host github.com
 
 提示：这个是修改 github 的 ssh 代理，使用 git 链接的时候使用的是 ssh 连接，因此需要设置 ssh
 
+### sudo
+
+一般来说，将代理配置在.zshrc 或者 .bashrc 上，sudo 命令是无法使用代理的，sudo代理配置如下
+
+使用命令sudo vim打开/etc/sudoers文件，将以下行添加到文件末尾：
+
+```bash
+Defaults env_keep += "http_proxy https_proxy"
+```
+
+或者，使用命令sudo vim /etc/environment打开/etc/environment文件，并在其中添加以下行：
+
+```bash
+http_proxy="http://127.0.0.1:7890"
+https_proxy="https://127.0.0.1:7890"
+```
+
+
+
 # 动静态编译
 
 ## 编译步骤
