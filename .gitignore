@@ -1,6 +1,10 @@
-*build*/
+build
 .idea/
 .vscode/
 /LeetCode/leetcode/editor/cn/doc/
 .cache/
 .compile_commands.json
+.o
+.ko
+.cmd
+.mod.c

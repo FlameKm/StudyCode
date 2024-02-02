@@ -156,18 +156,58 @@ else
 
 ## EVENT
 
-| POLLIN     | 有数据可读                                                   |
-| ---------- | ------------------------------------------------------------ |
-| POLLRDNORM | 等同于 POLLIN                                                 |
+| POLLIN     | 有数据可读                                                |
+|------------|------------------------------------------------------|
+| POLLRDNORM | 等同于 POLLIN                                           |
 | POLLRDBAND | Priority band data can be read，有优先级较较高的“band data”可读 |
-|            | Linux 系统中很少使用这个事件                                  |
+|            | Linux 系统中很少使用这个事件                                    |
 | POLLPRI    | 高优先级数据可读                                             |
-| POLLOUT    | 可以写数据                                                   |
-| POLLWRNORM | 等同于 POLLOUT                                                |
-| POLLWRBAND | Priority data may be written                                 |
-| POLLERR    | 发生了错误                                                   |
-| POLLHUP    | 挂起                                                         |
-| POLLNVAL   | 无效的请求，一般是 fd 未 open                                   |
+| POLLOUT    | 可以写数据                                                |
+| POLLWRNORM | 等同于 POLLOUT                                          |
+| POLLWRBAND | Priority data may be written                         |
+| POLLERR    | 发生了错误                                                |
+| POLLHUP    | 挂起                                                   |
+| POLLNVAL   | 无效的请求，一般是 fd 未 open                                  |
+
+## IRQ
+
+比如KEY驱动程序
+
+```C
+static irqreturn_t isr_f(int irq, void *data)
+{
+    printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
+
+    return IRQ_HANDLED;
+}
+
+// 获取中断号
+irq = gpio_to_irq(temp_measure->gpio);
+// 注册中断
+ret = request_irq(irq, isr_f, IRQF_TRIGGER_RISING, "key_irq", &key_irq[0]); 
+// 释放中断
+free_irq(irq, &key_irq[0]);
+```
+
+中断函数返回值的含义
+
+| IRQ RETURN      | MEANING                                               |
+| --------------- | ----------------------------------------------------- |
+| IRQ_NONE        | interrupt was not from this device or was not handled |
+| IRQ_HANDLED     | interrupt was handled by this device                  |
+| IRQ_WAKE_THREAD | handler requests to wake the handler thread           |
+
+触发条件
+
+| TRIG SIGNAL          | MEANING                              |
+|----------------------|--------------------------------------|
+| IRQF_TRIGGER_NONE    | 无触发条件                                |
+| IRQF_TRIGGER_RISING  | 上升沿触发                                |
+| IRQF_TRIGGER_FALLING | 下降沿触发                                |
+| IRQF_TRIGGER_HIGH    | 高电平触发，表示中断在输入信号为高电平时触发。              |
+| IRQF_TRIGGER_LOW     | 低电平触发，表示中断在输入信号为低电平时触发。              |
+| IRQF_TRIGGER_MASK    | 用于屏蔽中断触发方式的位掩码。                      |
+| IRQF_TRIGGER_PROBE   | 用于探测中断触发方式，通常在注册中断时使用，让系统尝试检测中断触发方式。 |
 
 # System
 
@@ -210,21 +250,21 @@ echo 104> /sys/class/gpio/unexport
 ### GPIO 子系统函数
 
 | **descriptor-based**       | **legacy**            |
-| -------------------------- | --------------------- |
-| **获得 GPIO**               |                       |
+|----------------------------|-----------------------|
+| **获得 GPIO**                |                       |
 | **gpiod_get**              | gpio_request          |
 | **gpiod_get_index**        |                       |
 | **gpiod_get_array**        | gpio_request_array    |
 | **devm_gpiod_get**         |                       |
 | **devm_gpiod_get_index**   |                       |
 | **devm_gpiod_get_array**   |                       |
-| **设置方向**               |                       |
+| **设置方向**                   |                       |
 | **gpiod_direction_input**  | gpio_direction_input  |
 | **gpiod_direction_output** | gpio_direction_output |
-| **读值、写值**             |                       |
+| **读值、写值**                  |                       |
 | **gpiod_get_value**        | gpio_get_value        |
 | **gpiod_set_value**        | gpio_set_value        |
-| **释放 GPIO**               |                       |
+| **释放 GPIO**                |                       |
 | **gpio_free**              | gpio_free             |
 | **gpiod_put**              | gpio_free_array       |
 | **gpiod_put_array**        |                       |
