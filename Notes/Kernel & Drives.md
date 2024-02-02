@@ -303,6 +303,33 @@ irqreturn_t xxx_irq(int irq, void *dev_id)
 }
 ```
 
+### Disable IRQs
+
+禁用全部中断
+
+```c
+void local_irq_save(unsigned long flags);
+void local_irq_disable(void);
+```
+
+恢复全部中断
+
+```c
+void local_irq_restore(unsigned long flags);
+void local_irq_enable(void);
+```
+
+指定中断线
+
+```c
+void disable_irq(unsigned int irq);
+void disable_irq_nosync(unsigned int irq);
+void enable_irq(unsigned int irq);
+void synchronize_irq(unsigned int irq);
+```
+
+
+
 
 
 
