@@ -3,8 +3,9 @@ build
 .vscode/
 /LeetCode/leetcode/editor/cn/doc/
 .cache/
-.compile_commands.json
-.o
-.ko
-.cmd
-.mod.c
+compile_commands.json
+*.o
+*.ko
+*.cmd
+*.mod
+*.o.d
