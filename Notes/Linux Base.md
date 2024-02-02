@@ -344,6 +344,30 @@ WantedBy=multi-user.target
    sudo systemctl status clash
    ```
 
+## printk
+
+控制等级
+
+```bash
+cat /proc/sys/kernel/printk # read
+echo x x x x > /proc/sys/kernel/printk # config
+```
+
+打印等级
+
+| PRINTK LEVEL | NUM  | MEANING                            |
+| ------------ | ---- | ---------------------------------- |
+| KERN_EMERG   | 0    | system is unusable                 |
+| KERN_ALERT   | 1    | action must be taken   immediately |
+| KERN_CRIT    | 2    | critical conditions                |
+| KERN_ERR     | 3    | error conditions                   |
+| KERN_WARNING | 4    | warning conditions                 |
+| KERN_NOTICE  | 5    | normal but significantcondition    |
+| KERN_INFO    | 6    | informational                      |
+| KERN_DEBUG   | 7    | debug-level messages               |
+
+
+
 ## 路由器
 
 [(1 条消息) 小米路由 3G 刷 openwrt 固件_奥利奥泡泡的博客-CSDN 博客_小米路由器 3gopenwrt 固件](https://blog.csdn.net/z619193774/article/details/81507917?ops_request_misc=&request_id=&biz_id=102&utm_term=%E5%B0%8F%E7%B1%B33g%E8%B7%AF%E7%94%B1%E5%99%A8openwrt&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-81507917.nonecase&spm=1018.2226.3001.4187)
