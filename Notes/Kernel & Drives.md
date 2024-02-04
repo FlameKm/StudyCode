@@ -238,7 +238,7 @@ else
 比如KEY驱动程序
 
 ```C
-static irqreturn_t isr_f(int irq, void *data)
+static irqreturn_t xxx_isr(int irq, void *data)
 {
     printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 
@@ -248,7 +248,7 @@ static irqreturn_t isr_f(int irq, void *data)
 // 获取中断号
 irq = gpio_to_irq(temp_measure->gpio);
 // 注册中断
-ret = request_irq(irq, isr_f, IRQF_TRIGGER_RISING, "key_irq", &key_irq[0]); 
+ret = request_irq(irq, xxx_isr, IRQF_TRIGGER_RISING, "key_irq", &key_irq[0]); 
 // 释放中断
 free_irq(irq, &key_irq[0]);
 ```
@@ -279,8 +279,9 @@ free_irq(irq, &key_irq[0]);
 
 ### Tasklet
 
-是一个可以在由系统决定的安全时刻在中断上下文中运行的函数，可能会被多次调用，但是调度不会积累，实际只会运行一次。可以较好的解决**中断底半部**。
-必须使用宏`DECLARE_TASKLET`进行声明taklet。
+是一个可以在由系统决定的安全时刻在中断上下文中运行的函数，可能会被多次调用，但是调度不会积累，实际只会运行一次。可以较好的解决**中断底半部**，除了tasklet实现底半部的方式之外，还可以使用软中断、工作队列等来实现底半部，一般来说，**十分耗时的任务使用内核线程来实现**。
+
+可以使用宏`DECLARE_TASKLET`进行声明taklet。
 
 Demo
 
@@ -328,8 +329,49 @@ void enable_irq(unsigned int irq);
 void synchronize_irq(unsigned int irq);
 ```
 
+### Kernel Thread
 
+在中断下半部时，如果处理起来十分耗时，那么可以使用work来实现。本质是上半部中创建工作队列
 
+```c
+int request_threaded_irq(unsigned int irq, irq_handler_t handler,
+			 irq_handler_t thread_fn, unsigned long irqflags,
+			 const char *devname, void *dev_id)
+```
+
+## Work Queue
+
+以下API为2.6.20之后的内核
+
+### Work
+
+```c
+// init
+struct work_struct work;
+INIT_WORK(&work, func);
+
+// schedule
+schedule_work(&work);
+
+// other
+flush_work(&xx_dwork);
+cancel_work_sync(&xx_dwork); // use to exit
+```
+
+### Delay Work
+
+```C
+// init
+struct delayed_work xx_dwork;
+INIT_DELAYED_WORK(&xx_dwork, func); 
+
+// schedule
+schedule_delayed_work(&dwork, delay); //delay number of jiffies
+
+// other
+flush_delayed_work(&xx_dwork);
+cancel_delayed_work(&xx_dwork); // use to exit
+```
 
 
 
@@ -368,3 +410,27 @@ printf("hyc xxx test: %d", end - start);
 `ktime_get_ts`
 
 `ktime_get_ns`
+
+### Jiffies
+
+ jiffies记录系统时钟中断次数，即tick的次数，初始值并不是0
+
+相关函数
+
+```c
+extern unsigned int jiffies_to_msecs(const unsigned long j);
+extern unsigned int jiffies_to_usecs(const unsigned long j);
+extern unsigned long msecs_to_jiffies(const unsigned int m);
+extern unsigned long usecs_to_jiffies(const unsigned int u);
+extern unsigned long timespec_to_jiffies(const struct timespec *value);
+extern void jiffies_to_timespec(const unsigned long jiffies,
+                struct timespec *value);
+extern unsigned long timeval_to_jiffies(const struct timeval *value);
+extern void jiffies_to_timeval(const unsigned long jiffies,
+                   struct timeval *value);
+extern clock_t jiffies_to_clock_t(unsigned long x);
+extern unsigned long clock_t_to_jiffies(unsigned long x);
+extern u64 jiffies_64_to_clock_t(u64 x);
+extern u64 nsecs_to_jiffies64(u64 n);
+extern unsigned long nsecs_to_jiffies(u64 n);
+```
