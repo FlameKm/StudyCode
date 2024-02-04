@@ -232,6 +232,14 @@ sudo cp -r typora_plugin/plugin /usr/share/typora/resources/
 sudo gedit /usr/share/typora/resources/window.html
 ```
 
+## Balena Etcher
+
+一款烧写镜像的软件
+
+下载地址:
+
+[github]:(https://github.com/balena-io/etcher/releases)
+
 
 
 # VSCode
