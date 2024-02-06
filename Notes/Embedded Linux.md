@@ -148,6 +148,36 @@ echo 104> /sys/class/gpio/unexport
 | **devm_gpiod_put**         |                       |
 | **devm_gpiod_put_array**   |                       |
 
+## I2C Subsystem
+
+### base
+
+**注册**
+
+一般使用这两个函数，本质上是一样的，第二个就是对本模块的宏
+
+`int i2c_register_driver(struct module *owner,struct i2c_driver *driver)` 
+
+`i2c_add_driver(driver)`
+
+**卸载**
+
+`void i2c_del_driver(struct i2c_driver *driver);`
+
+### Demo
+
+[I2CDemo](../LinuxDrive/drive/iic)
+
+### Data
+
+由于接口多数是`struct i2c_client *client`，没有直接的数据传输，因此驱动有许多数据保存为单个模块的方式
+
+client结构中有一个成员就是dev,可以使用`of_device_get_match_data`获取，接着使用`dev_set_drvdata`， `dev_get_drvdata`
+
+也可以使用已经封装好的`i2c_set_clientdata`，`i2c_get_clientdata`
+
+还有dev转换成client，`to_i2c_client`
+
 ## POLL
 
 参考链接：https://cloud.tencent.com/developer/article/1708996
@@ -433,4 +463,39 @@ extern unsigned long clock_t_to_jiffies(unsigned long x);
 extern u64 jiffies_64_to_clock_t(u64 x);
 extern u64 nsecs_to_jiffies64(u64 n);
 extern unsigned long nsecs_to_jiffies(u64 n);
+```
+
+# Embedded Appliction
+
+## I2C
+
+参考网址
+
+[Linux应用开发【第十二章】I2C编程应用开发](https://blog.51cto.com/weidongshan/4795722#1231_I2C_toolsI2C_233)
+
+### API
+
+自己总结的，可能存在问题，具体可以查看<linux/i2c-dev.h>
+
+- ioctl, 会发送设备地址，也可以用来发送数据
+
+```c
+    ret = ioctl(cam_fd[bus], I2C_SLAVE_FORCE, i2c_addr);
+    or
+    ret = ioctl(cam_fd[bus], I2C_RDWR, (unsigned long)&data); // data is struct i2c_rdwr_ioctl_data
+```
+
+- write, 直接发送数据
+- read， 直接读取数据
+
+
+
+### I2C-Tools
+
+```
+i2cdetect：用于扫描 i2c 总线上的设备，并显示地址
+i2cset：设置i2c设备某个寄存器的值
+i2cget：读取i2c设备某个寄存器的值
+i2cdump：读取某个i2c设备所有寄存器的值
+i2ctransfer：一次性读写多个字节
 ```
