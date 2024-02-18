@@ -1,90 +1,4 @@
-# Kernel & Drives
-
-## DEBUG
-
-### KGDB
-
-1. 内核配置中打开 KGDB
-2. 启动参数添加 `kgdb=ttyS0,115200`(举例)，`waitgdb`
-3. 使用交叉工具链的 gdb 或者 gdb-multiarch，加载 vmlinux，连接内核。
-
-**QEMU**
-
-qemu 启动参数添加 `-s -S`
-
-### GDB
-
-1. 对内核进行调试
-
-2. 加载符号表，使用下面脚本 ，在被调试端执行 `sudo ko-to-symbols.sh usb_f_uvc.ko`
-
-   其中，ko-to-symbols.sh 就是下面脚本。
-
-```bash
-module_name="$(basename $1 .ko)"
-cd /sys/module/$module_name/sections
-echo -n add-symbol-file $1 `/bin/cat .text`
-for section in .[a-z]* *; do
-    if [ $section != ".text" ]; then
-echo -n " -s" $section `/bin/cat $section` 
-    fi
-done
-echo
-
-```
-
-3. 将得到的信息全部复制到主机 gdb 面板中，即可调试 gdb
-
-## Change Kernel
-
-### Delect
-
-删除相关文件
-
-```bash
-KERNEL_VERSION=6.7.0
-sudo rm -rf  /boot/vmlinuz*${KERNEL_VERSION}*
-sudo rm -rf  /boot/initrd*${KERNEL_VERSION}*
-sudo rm -rf  /boot/System-map*${KERNEL_VERSION}*
-sudo rm -rf  /boot/config-*${KERNEL_VERSION}*
-sudo rm -rf  /lib/modules/*${KERNEL_VERSION}*/
-sudo rm -rf  /var/lib/initramfs-tools/*${KERNEL_VERSION}*/
-```
-
-更新配置
-
-```bash
-sudo update-grub2
-```
-
-### Change
-
-下载内核源码
-
-```bash
-apt-get install linux-source-...
-cd /lib/modules/$(uname -r)/build
-ls
-```
-
-有这些项： debian  debian.hwe-6.5  linux-source-6.5.0.tar.bz2
-
-解压内核即可获得内核
-
-编译后替换
-
-```bash
-make modules_install # 将编译好的模块文件安装到系统中
-make install # 更新内核
-```
-
-## Drive Install
-
-安装 `insmod xxx` or  `modprobe xxx`
-
-卸载 `rmmod xxx` or  `modprobe -r xxx`
-
-编译内核选项中，`-m` 表示动态模块，`-y` 表示编译进内核
+# Drives Code
 
 ## **GPIO**
 
@@ -177,6 +91,17 @@ client结构中有一个成员就是dev,可以使用`of_device_get_match_data`�
 也可以使用已经封装好的`i2c_set_clientdata`，`i2c_get_clientdata`
 
 还有dev转换成client，`to_i2c_client`
+
+### Transfer
+
+- int i2c_master_send(const struct i2c_client *client, const char *buf, int count)
+
+- int i2c_master_recv(const struct i2c_client *client, char *buf, int count)
+- int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+
+详见demo，前两个发送都是对第三个的一个封装。发送的时序是：
+
+`start` -> `device addr` -> `data(contain reg)` -> `end`
 
 ## POLL
 
@@ -319,19 +244,25 @@ Demo
 void xxx_do_tasklet(unsigned long);
 DECLARE_TASKLET(xxx_tasklet, xxx_do_tasklet, 0);
 
-// 底半部
-void xxx_do_tasklet(unsigned long){
+// Bottom
+static void xxx_do_tasklet(unsigned long){
 	...
 }
 
-// 顶半部
-irqreturn_t xxx_irq(int irq, void *dev_id)
+// Top
+static irqreturn_t xxx_isr(int irq, void *dev_id)
 {
     ...
     tasklet_schedule(&xxx_tasklet);
     ...
     return IRQ_HANDLED;
 }
+
+// Init
+tasklet_init(&xxx_tasklet, xxx_do_tasklet, &dev);
+
+// Remove
+tasklet_kill(&xxx_tasklet);
 ```
 
 ### Disable IRQs
@@ -407,6 +338,8 @@ cancel_delayed_work(&xx_dwork); // use to exit
 
 ## Counting Time
 
+### Count
+
 新内核 6.x.x
 
 ```c
@@ -465,7 +398,26 @@ extern u64 nsecs_to_jiffies64(u64 n);
 extern unsigned long nsecs_to_jiffies(u64 n);
 ```
 
-# Embedded Appliction
+## Hrtimer
+
+```c
+static enum hrtimer_restart hrtimer_hander(struct hrtimer *timer)
+{
+    // do something
+    return HRTIMER_RESTART; //restart
+}
+
+//init 
+hrtimer_init(&timer, CLOCK_REALTIME, HRTIMER_MODE_ABS); //系统时钟源，绝对时间模式
+
+//start
+hrtimer_start(&timer,kt,HRTIMER_MODE_ABS);
+
+//remove
+hrtimer_cancel(&timer);
+```
+
+# Appliction Code
 
 ## I2C
 
@@ -475,9 +427,9 @@ extern unsigned long nsecs_to_jiffies(u64 n);
 
 ### API
 
-自己总结的，可能存在问题，具体可以查看<linux/i2c-dev.h>
+具体可以查看<linux/i2c-dev.h>
 
-- ioctl, 会发送设备地址，也可以用来发送数据
+- ioctl，会发送设备地址，也可以用来发送数据
 
 ```c
     ret = ioctl(cam_fd[bus], I2C_SLAVE_FORCE, i2c_addr);
@@ -485,17 +437,107 @@ extern unsigned long nsecs_to_jiffies(u64 n);
     ret = ioctl(cam_fd[bus], I2C_RDWR, (unsigned long)&data); // data is struct i2c_rdwr_ioctl_data
 ```
 
-- write, 直接发送数据
+- write，直接发送数据
 - read， 直接读取数据
 
 
 
 ### I2C-Tools
 
+- i2cdetect：用于扫描 i2c 总线上的设备，并显示地址
+
+- i2cset：设置i2c设备某个寄存器的值
+
+- i2cget：读取i2c设备某个寄存器的值
+
+- i2cdump：读取某个i2c设备所有寄存器的值
+
+- i2ctransfer：一次性读写多个字节
+
+# System Operate
+
+## DEBUG
+
+### KGDB
+
+1. 内核配置中打开 KGDB
+2. 启动参数添加 `kgdb=ttyS0,115200`(举例)，`waitgdb`
+3. 使用交叉工具链的 gdb 或者 gdb-multiarch，加载 vmlinux，连接内核。
+
+**QEMU**
+
+qemu 启动参数添加 `-s -S`
+
+### GDB
+
+1. 对内核进行调试
+
+2. 加载符号表，使用下面脚本 ，在被调试端执行 `sudo ko-to-symbols.sh usb_f_uvc.ko`
+
+   其中，ko-to-symbols.sh 就是下面脚本。
+
+```bash
+module_name="$(basename $1 .ko)"
+cd /sys/module/$module_name/sections
+echo -n add-symbol-file $1 `/bin/cat .text`
+for section in .[a-z]* *; do
+    if [ $section != ".text" ]; then
+echo -n " -s" $section `/bin/cat $section` 
+    fi
+done
+echo
+
 ```
-i2cdetect：用于扫描 i2c 总线上的设备，并显示地址
-i2cset：设置i2c设备某个寄存器的值
-i2cget：读取i2c设备某个寄存器的值
-i2cdump：读取某个i2c设备所有寄存器的值
-i2ctransfer：一次性读写多个字节
+
+3. 将得到的信息全部复制到主机 gdb 面板中，即可调试 gdb
+
+## Change Kernel
+
+### Delect
+
+删除相关文件
+
+```bash
+KERNEL_VERSION=6.7.0
+sudo rm -rf  /boot/vmlinuz*${KERNEL_VERSION}*
+sudo rm -rf  /boot/initrd*${KERNEL_VERSION}*
+sudo rm -rf  /boot/System-map*${KERNEL_VERSION}*
+sudo rm -rf  /boot/config-*${KERNEL_VERSION}*
+sudo rm -rf  /lib/modules/*${KERNEL_VERSION}*/
+sudo rm -rf  /var/lib/initramfs-tools/*${KERNEL_VERSION}*/
 ```
+
+更新配置
+
+```bash
+sudo update-grub2
+```
+
+### Change
+
+下载内核源码
+
+```bash
+apt-get install linux-source-...
+cd /lib/modules/$(uname -r)/build
+ls
+```
+
+有这些项： debian  debian.hwe-6.5  linux-source-6.5.0.tar.bz2
+
+解压内核即可获得内核
+
+编译后替换
+
+```bash
+make modules_install # 将编译好的模块文件安装到系统中
+make install # 更新内核
+```
+
+## Drive Install
+
+安装 `insmod xxx` or  `modprobe xxx`
+
+卸载 `rmmod xxx` or  `modprobe -r xxx`
+
+编译内核选项中，`-m` 表示动态模块，`-y` 表示编译进内核
