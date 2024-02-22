@@ -16,7 +16,7 @@ cat /sys/kernel/debug/gpio
 
 ② 然后进入某个 `gpiochipXXX` 目录，查看文件 `label` 的内容，就可以知道起始号码 XXX 对于哪组 GPIO
 
-### Shell Use GPIO
+### Use GPIO In Shell
 
 这个是基于标准的linux内核
 
@@ -65,6 +65,10 @@ echo 104> /sys/class/gpio/unexport
 ## I2C Subsystem
 
 ### base
+
+**独立模块**
+
+`module_i2c_driver`进行init和exit
 
 **注册**
 
@@ -311,7 +315,7 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
 struct work_struct work;
 INIT_WORK(&work, func);
 
-// schedule
+// schedulezhong duan
 schedule_work(&work);
 
 // other
@@ -411,11 +415,13 @@ static enum hrtimer_restart hrtimer_hander(struct hrtimer *timer)
 hrtimer_init(&timer, CLOCK_REALTIME, HRTIMER_MODE_ABS); //系统时钟源，绝对时间模式
 
 //start
-hrtimer_start(&timer,kt,HRTIMER_MODE_ABS);
+hrtimer_start(&timer, kt, HRTIMER_MODE_ABS);
 
 //remove
 hrtimer_cancel(&timer);
 ```
+
+循环模式时候，必须使用HRTIMER_MODE_ABS
 
 # Appliction Code
 
@@ -541,3 +547,69 @@ make install # 更新内核
 卸载 `rmmod xxx` or  `modprobe -r xxx`
 
 编译内核选项中，`-m` 表示动态模块，`-y` 表示编译进内核
+
+# Device Tree
+
+## Device Tree Restore
+
+1. 在开发板系统目录/sys/firmware中有`fdt`文件，将它拷贝到pc机
+2. 使用kernel目录下dtc工具复原
+
+```bash
+cd ${KERNEL_DIR}
+scripts/dtc/dtc -I dtb -O dts -o ~/Downloads/fdt.dts ~/Downloads/fdt
+```
+
+## Overlay
+
+### latest code
+
+```dts
+/dts-v1/;
+/plugin/;
+
+&{/} {
+    /*此处在根节点"/"下,添加要插入的节点或者属性*/
+};
+
+&XXXXX {
+    /*此处在节点"XXXXX"下,添加要插入的节点或者属性*/
+};
+```
+
+### early code
+
+```dts
+/dts-v1/;
+/plugin/;
+
+ / {
+        fragment@0 {
+            target-path = "/";
+            __overlay__ {
+                /*在此添加要插入的节点*/
+                .......
+            };
+        };
+
+        fragment@1 {
+            target = <&XXXXX>;
+            __overlay__ {
+                /*在此添加要插入的节点*/
+                .......
+            };
+        };
+    .......
+ };
+```
+
+还有`__overlay__`,  `__symbols__`,  `__fixups__`, `__localfixups_`
+
+### compile
+
+使用内核的dtc工具
+
+```bash
+dtc -I dts -O dtb -o xxx.dtbo xxx.dts
+```
+

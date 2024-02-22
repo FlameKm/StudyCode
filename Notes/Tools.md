@@ -246,6 +246,8 @@ sudo gedit /usr/share/typora/resources/window.html
 
 ## clangd
 
+### Setting.json
+
 This is setting.json in vscode
 
 ```json
@@ -260,7 +262,18 @@ This is setting.json in vscode
     ],
 ```
 
-clangd 自带clang-format 程序，使用.clang-format配置文件即可格式化程序，或者另外安装此拓展
+### .clangd
+
+In drivers develop, need create `.clangd` like below in work directory,  because there parameters are not supported by clangd.
+
+```bash
+CompileFlags:
+  Remove: [-fconserve-stack, -fno-allow-store-data-races, -fno-ipa-sra, -fno-var-tracking-assignments, -mpc-relative-literal-loads, -march=*, -mabi=*]
+```
+
+### clang-format
+
+clangd 自带clang-format 程序，使用.clang-format配置文件即可格式化程序，或者另外安装此拓展。
 
 ## GDB
 
@@ -287,8 +300,6 @@ clangd 自带clang-format 程序，使用.clang-format配置文件即可格式�
         }
     ]
 ```
-
-
 
 # ToolChain
 
