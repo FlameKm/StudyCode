@@ -457,6 +457,16 @@ opkg install luci --force-overwrite
 opkg install luci-i18n-base-zh-cn
 ```
 
+## 设置文件权限
+
+改变用户组为hyc的hyc用户,其中`-R`表示递归设置。
+
+```bash
+sudo chown -R hyc:hyc $dir
+```
+
+
+
 # **树莓派**
 
 ## 交叉编译器
