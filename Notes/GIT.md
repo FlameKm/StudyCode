@@ -23,6 +23,12 @@
 git clone
 ```
 
+指定分支
+
+```bash
+git clone -b <指定分支名> <远程仓库地址> 
+```
+
 ## 上传
 
 [如何使用 git 命令行上传项目到 github_DreamMakers 的博客-CSDN 博客_git 新建仓库上传代码](https://blog.csdn.net/majinggogogo/article/details/81152938)
@@ -57,9 +63,7 @@ git push -u origin main
 
 **在 github 新建一个仓库, 与本地关联**
 
-**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**
-
-
+**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**，（是可以直接通过ssh访问github帐号，不需要密码登陆，一种安全验证）
 
 总结如下, GitHub 新建文件夹时也会提醒
 
@@ -74,6 +78,8 @@ git push -u origin main
 
 ## 更新
 
+更新到仓库
+
 ```shell
 查变更
 git status
@@ -84,9 +90,18 @@ git add .
 #提交
 git commit -m "说明信息"
 
-#上传
+#上传到指定分支
 git push origin master
 ```
+
+更新到本地
+
+```bash
+git pull 
+git pull origin <分支名称>
+```
+
+
 
 ## 版本回退
 
@@ -203,3 +218,4 @@ git push -u origin myfeature
 - revert - 回退
 
 - build - 打包
+
