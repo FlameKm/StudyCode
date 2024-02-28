@@ -477,6 +477,19 @@ shutdown
 | -W FILE, --what-if = FILE, --new-file = FILE, --assume-new = FILE | Consider FILE to be infinitely new.               | 将 FILE 视为无限新。                          |
 | --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
 
+## CMAKE
+
+### Debug Info
+
+Add info below in CMakeLists.txt
+
+```bash
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+```
+
+Just like this, gcc's way also.
+
 # Other
 
 
