@@ -1240,3 +1240,48 @@ gcc fun.c -shared -fPIC -o libxx.so
 3. 执行程序
 
    生成 main 可以在无需打包的情况下运行，无需外部添加链接文件
+
+# 启动盘烧写
+
+## 分区
+
+```bash
+lsblk # 查看设备名称
+fdisk /dev/sdb #进入fdisk
+d #删除所有分区
+n #新建分区
+	p #选择主要分区
+	1 #第几块分区
+	40960 #起始点
+	303104 #结束点 也可以用 `+262144`
+w #保存退出
+```
+
+40960表示20MB，303104是148MB 因为是以扇区为单位，一般来说扇区大小是512B，计算如下
+
+（20 * 1024 * 1024）/  512 = 40960
+
+（148 * 1024 * 1024 ）/ 512 = 303104
+
+## 直接刻录
+
+```bash
+sudo dd if=./uboot.bin of=/dev/sdb bs=8K seek=1
+```
+
+这个命令的意思是：
+
+1. 将uboot.bin烧录进sdb中
+2. 设置块大小为8K，意味着每次烧写数据块的大小为8K
+3. 设置偏单位为1，用于跳过引导扇区
+
+！这个命令比较危险，需要谨慎使用。
+
+## 存放内核
+
+```bash
+sudo mount /dev/sdb1 /mnt
+sudo cp ${KERN_DIR}/arch/arm64/boot/Image /mnt/
+sudo cp ${KERN_DIR}/arch/arm64/boot/dts/xxx.dtb /mnt/
+sudo umount /mnt
+```
