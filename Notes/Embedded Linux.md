@@ -613,3 +613,11 @@ scripts/dtc/dtc -I dtb -O dts -o ~/Downloads/fdt.dts ~/Downloads/fdt
 dtc -I dts -O dtb -o xxx.dtbo xxx.dts
 ```
 
+## Sign Kernel
+
+[web link](https://blog.csdn.net/qq_40227064/article/details/124467228)
+
+```bash
+./scripts/sign-file sha256 certs/signing_key.pem certs/signing_key.x509 yuor_module_path
+```
+

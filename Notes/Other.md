@@ -1103,7 +1103,7 @@ Host github.com
 
 提示：这个是修改 github 的 ssh 代理，使用 git 链接的时候使用的是 ssh 连接，因此需要设置 ssh
 
-### sudo
+## sudo
 
 一般来说，将代理配置在.zshrc 或者 .bashrc 上，sudo 命令是无法使用代理的，sudo代理配置如下
 
