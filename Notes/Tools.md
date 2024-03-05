@@ -374,6 +374,24 @@ link_directories(lib)
 target_link_libraries(test libshow.a)
 ```
 
+### 创建compile-commands.json
+
+just define `CMAKE_EXPORT_COMPILE_COMMANDS` in cmake。
+
+```bash
+cmake ${ohter_para} -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+```
+
+or, in txt
+
+```bash
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
+```
+
+
+
+
+
 ## **OpenOCD**
 
 **vscode 使用 openocd 的方法链接：**

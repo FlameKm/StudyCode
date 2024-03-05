@@ -6,10 +6,10 @@
 | --------------------- | ------------------------------------------------------------ |
 | git init              | 创建为可管理仓库                                             |
 | git status            | 查看当前版本状态                                             |
-| git add               | 添加内容到仓库 一般 ``git add . `` 表示全部添加                |
+| git add               | 添加内容到仓库 一般 ``git add . `` 表示全部添加              |
 | git commit            | 提交到本地仓库 需要添加注释 具体为 ``git commit -m “user commit`` |
 | git remote add origin | 与网络仓库绑定 ``git remote add origin git@github.com:FlameKm/test.git`` |
-| git push              | 提交到网上 一般举例 ``git push origin master``                |
+| git push              | 提交到网上 一般举例 ``git push origin master``               |
 | git log               | 日志                                                         |
 | git clone             | 克隆到本地                                                   |
 
