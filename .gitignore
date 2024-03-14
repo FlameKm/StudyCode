@@ -10,3 +10,8 @@ build
 *.mod
 *.o.d
 *.mod.c
+Module.symvers
+modules.order
+.dtbo
+test
+compile_commands.json

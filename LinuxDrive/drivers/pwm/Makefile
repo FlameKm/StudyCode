@@ -12,12 +12,14 @@ LD 		= $(CROSS_COMPILE)ld
 KERN_DIR = /home/hyc/Project/kernel
 
 # CFLAGS = -Wall -I$(INCLUDE_DIR)
+DRIVER_NAME = pwm
 
 all: 
 	make -C $(KERN_DIR) M=`pwd` modules 
-	${CROSS_COMPILE}gcc -o test pwm_test.c
+	${CROSS_COMPILE}gcc -o test $(DRIVER_NAME)_test.c
 
 clean:
 	make -C $(KERN_DIR) M=`pwd` modules clean
+	rm test
 
-obj-m += pwm.o
+obj-m += ${DRIVER_NAME}.o

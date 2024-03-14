@@ -18,6 +18,8 @@ int main(int argc, char *argv[])
     int brightness = 0;
     char key = 0;
 
+    system("stty -icanon");
+
     while ((key = getchar()) != 'q') {
         switch (key) {
             case '=':
@@ -30,6 +32,8 @@ int main(int argc, char *argv[])
                 printf("-\n");
                 brightness -= brightness > 0 ? 10 : 0;
                 break;
+            default:
+                return 0;
         }
 
         if (ioctl(fd, PWMLED_CMD_SET_BRIGHTNESS, brightness) < 0) {
