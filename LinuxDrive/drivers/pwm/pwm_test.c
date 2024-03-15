@@ -24,15 +24,14 @@ int main(int argc, char *argv[])
         switch (key) {
             case '=':
             case '+':
-                printf("+\n");
                 brightness += brightness < PWMLED_MAX_BRIGHTNESS ? 10 : 0;
                 break;
             case '-':
             case '_':
-                printf("-\n");
                 brightness -= brightness > 0 ? 10 : 0;
                 break;
             default:
+                close(fd);
                 return 0;
         }
 

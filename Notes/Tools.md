@@ -74,27 +74,27 @@ im-config
 
 3. 主题
 
-   ```bash
-   # ZSH_THEME = "robbyrussell"
-   # ZSH_THEME = "random"
-   # ZSH_THEME = "refined"
-   # ZSH_THEME = "jtriley"
-   ZSH_THEME="pygmalion-virtualenv"
-   ```
+    ```bash
+    # ZSH_THEME = "robbyrussell"
+    # ZSH_THEME = "random"
+    # ZSH_THEME = "refined"
+    # ZSH_THEME = "jtriley"
+    ZSH_THEME="pygmalion-virtualenv"
+    ```
 
 4. 插件
 
 zsh-syntax-highlighting 高亮
 
-```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-```
+    ```bash
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    ```
 
 zsh-autosuggestions 自动补全
 
-```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
+    ```bash
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    ```
 
 ~/.zshrc 处添加 `plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`
 
@@ -104,6 +104,20 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
    # close history share
    setopt no_share_history
    ```
+
+6. 开发板前缀设置
+
+   write below in `.bashrc`
+
+   ```bash
+   PS1="[%n@%m:%~]"
+   ```
+
+`%n` meaning user name
+
+`%m` meaning machine name
+
+`%~` meaning current path
 
 ## Meld - 比较文件差异
 
