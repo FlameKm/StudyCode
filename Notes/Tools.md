@@ -121,6 +121,15 @@ sudo apt install terminator
 
 右键个性化设置，有快捷命令
 
+有以下常用命令
+
+```bash
+terminator -s #打开布局选项面板
+terminator -l single #打开single面板
+```
+
+
+
 ## Minicom - 串口
 
 1. 安装
