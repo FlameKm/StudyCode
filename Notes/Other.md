@@ -1069,7 +1069,7 @@ qmake 添加
 ## git
 
 ```shell
-#启动代理
+动代理
 git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy https://127.0.0.1:7890
 
@@ -1105,15 +1105,15 @@ Host github.com
 
 ## sudo
 
-一般来说，将代理配置在.zshrc 或者 .bashrc 上，sudo 命令是无法使用代理的，sudo代理配置如下
+一般来说，将代理配置在.zshrc 或者 .bashrc 上，sudo 命令是无法使用代理的，sudo 代理配置如下
 
-使用命令sudo vim打开/etc/sudoers文件，将以下行添加到文件末尾：
+使用命令 sudo vim 打开/etc/sudoers 文件，将以下行添加到文件末尾：
 
 ```bash
 Defaults env_keep += "http_proxy https_proxy"
 ```
 
-或者，使用命令sudo vim /etc/environment打开/etc/environment文件，并在其中添加以下行：
+或者，使用命令 sudo vim /etc/environment 打开/etc/environment 文件，并在其中添加以下行：
 
 ```bash
 http_proxy="http://127.0.0.1:7890"
@@ -1247,7 +1247,7 @@ gcc fun.c -shared -fPIC -o libxx.so
 
 ```bash
 lsblk # 查看设备名称
-fdisk /dev/sdb #进入fdisk
+fdisk /dev/sdb #进入 fdisk
 d #删除所有分区
 n #新建分区
 	p #选择主要分区
@@ -1257,7 +1257,7 @@ n #新建分区
 w #保存退出
 ```
 
-40960表示20MB，303104是148MB 因为是以扇区为单位，一般来说扇区大小是512B，计算如下
+40960 表示 20MB，303104 是 148MB 因为是以扇区为单位，一般来说扇区大小是 512B，计算如下
 
 （20 * 1024 * 1024）/  512 = 40960
 
@@ -1271,9 +1271,9 @@ sudo dd if=./uboot.bin of=/dev/sdb bs=8K seek=1
 
 这个命令的意思是：
 
-1. 将uboot.bin烧录进sdb中
-2. 设置块大小为8K，意味着每次烧写数据块的大小为8K
-3. 设置偏单位为1，用于跳过引导扇区
+1. 将 uboot.bin 烧录进 sdb 中
+2. 设置块大小为 8K，意味着每次烧写数据块的大小为 8K
+3. 设置偏单位为 1，用于跳过引导扇区
 
 ！这个命令比较危险，需要谨慎使用。
 

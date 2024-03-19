@@ -18,7 +18,7 @@ cat /sys/kernel/debug/gpio
 
 ### Use GPIO In Shell
 
-这个是基于标准的linux内核
+这个是基于标准的 linux 内核
 
 以引脚编号为 110 为例.
 
@@ -68,7 +68,7 @@ echo 104> /sys/class/gpio/unexport
 
 **独立模块**
 
-`module_i2c_driver`进行init和exit
+`module_i2c_driver` 进行 init 和 exit
 
 **注册**
 
@@ -88,22 +88,22 @@ echo 104> /sys/class/gpio/unexport
 
 ### Data
 
-由于接口多数是`struct i2c_client *client`，没有直接的数据传输，因此驱动有许多数据保存为单个模块的方式
+由于接口多数是 `struct i2c_client *client`，没有直接的数据传输，因此驱动有许多数据保存为单个模块的方式
 
-client结构中有一个成员就是dev,可以使用`of_device_get_match_data`获取，接着使用`dev_set_drvdata`， `dev_get_drvdata`
+client 结构中有一个成员就是 dev, 可以使用 `of_device_get_match_data` 获取，接着使用 `dev_set_drvdata`， `dev_get_drvdata`
 
-也可以使用已经封装好的`i2c_set_clientdata`，`i2c_get_clientdata`
+也可以使用已经封装好的 `i2c_set_clientdata`，`i2c_get_clientdata`
 
-还有dev转换成client，`to_i2c_client`
+还有 dev 转换成 client，`to_i2c_client`
 
 ### Transfer
 
-- int i2c_master_send(const struct i2c_client *client, const char *buf, int count)
+- int i2c_master_send(const struct i2c_client *client, const char * buf, int count)
 
-- int i2c_master_recv(const struct i2c_client *client, char *buf, int count)
-- int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+- int i2c_master_recv(const struct i2c_client *client, char * buf, int count)
+- int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg * msgs, int num)
 
-详见demo，前两个发送都是对第三个的一个封装。发送的时序是：
+详见 demo，前两个发送都是对第三个的一个封装。发送的时序是：
 
 `start` -> `device addr` -> `data(contain reg)` -> `end`
 
@@ -194,7 +194,7 @@ else
 
 ### Basis
 
-比如KEY驱动程序
+比如 KEY 驱动程序
 
 ```C
 static irqreturn_t xxx_isr(int irq, void *data)
@@ -238,9 +238,9 @@ free_irq(irq, &key_irq[0]);
 
 ### Tasklet
 
-是一个可以在由系统决定的安全时刻在中断上下文中运行的函数，可能会被多次调用，但是调度不会积累，实际只会运行一次。可以较好的解决**中断底半部**，除了tasklet实现底半部的方式之外，还可以使用软中断、工作队列等来实现底半部，一般来说，**十分耗时的任务使用内核线程来实现**。
+是一个可以在由系统决定的安全时刻在中断上下文中运行的函数，可能会被多次调用，但是调度不会积累，实际只会运行一次。可以较好的解决 **中断底半部**，除了 tasklet 实现底半部的方式之外，还可以使用软中断、工作队列等来实现底半部，一般来说，**十分耗时的任务使用内核线程来实现**。
 
-可以使用宏`DECLARE_TASKLET`进行声明taklet。
+可以使用宏 `DECLARE_TASKLET` 进行声明 taklet。
 
 Demo
 
@@ -296,7 +296,7 @@ void synchronize_irq(unsigned int irq);
 
 ### Kernel Thread
 
-在中断下半部时，如果处理起来十分耗时，那么可以使用work来实现。本质是上半部中创建工作队列
+在中断下半部时，如果处理起来十分耗时，那么可以使用 work 来实现。本质是上半部中创建工作队列
 
 ```c
 int request_threaded_irq(unsigned int irq, irq_handler_t handler,
@@ -306,7 +306,7 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
 
 ## Work Queue
 
-以下API为2.6.20之后的内核
+以下 API 为 2.6.20 之后的内核
 
 ### Work
 
@@ -380,7 +380,7 @@ printf("hyc xxx test: %d", end - start);
 
 ### Jiffies
 
- jiffies记录系统时钟中断次数，即tick的次数，初始值并不是0
+ jiffies 记录系统时钟中断次数，即 tick 的次数，初始值并不是 0
 
 相关函数
 
@@ -421,7 +421,7 @@ hrtimer_start(&timer, kt, HRTIMER_MODE_ABS);
 hrtimer_cancel(&timer);
 ```
 
-循环模式时候，必须使用HRTIMER_MODE_ABS
+循环模式时候，必须使用 HRTIMER_MODE_ABS
 
 # Appliction Code
 
@@ -429,11 +429,11 @@ hrtimer_cancel(&timer);
 
 参考网址
 
-[Linux应用开发【第十二章】I2C编程应用开发](https://blog.51cto.com/weidongshan/4795722#1231_I2C_toolsI2C_233)
+[Linux 应用开发【第十二章】I2C 编程应用开发](https://blog.51cto.com/weidongshan/4795722#1231_I2C_toolsI2C_233)
 
 ### API
 
-具体可以查看<linux/i2c-dev.h>
+具体可以查看 <linux/i2c-dev.h>
 
 - ioctl，会发送设备地址，也可以用来发送数据
 
@@ -452,11 +452,11 @@ hrtimer_cancel(&timer);
 
 - i2cdetect：用于扫描 i2c 总线上的设备，并显示地址
 
-- i2cset：设置i2c设备某个寄存器的值
+- i2cset：设置 i2c 设备某个寄存器的值
 
-- i2cget：读取i2c设备某个寄存器的值
+- i2cget：读取 i2c 设备某个寄存器的值
 
-- i2cdump：读取某个i2c设备所有寄存器的值
+- i2cdump：读取某个 i2c 设备所有寄存器的值
 
 - i2ctransfer：一次性读写多个字节
 
@@ -552,8 +552,8 @@ make install # 更新内核
 
 ## Device Tree Restore
 
-1. 在开发板系统目录/sys/firmware中有`fdt`文件，将它拷贝到pc机
-2. 使用kernel目录下dtc工具复原
+1. 在开发板系统目录/sys/firmware 中有 `fdt` 文件，将它拷贝到 pc 机
+2. 使用 kernel 目录下 dtc 工具复原
 
 ```bash
 cd ${KERNEL_DIR}
@@ -603,11 +603,11 @@ scripts/dtc/dtc -I dtb -O dts -o ~/Downloads/fdt.dts ~/Downloads/fdt
  };
 ```
 
-还有`__overlay__`,  `__symbols__`,  `__fixups__`, `__localfixups_`
+还有 `__overlay__`,  `__symbols__`,  `__fixups__`, `__localfixups_`
 
 ### compile
 
-使用内核的dtc工具
+使用内核的 dtc 工具
 
 ```bash
 dtc -I dts -O dtb -o xxx.dtbo xxx.dts

@@ -459,7 +459,7 @@ opkg install luci-i18n-base-zh-cn
 
 ## 设置文件所有者
 
-改变用户组为hyc的hyc用户,其中`-R`表示递归设置。
+改变用户组为 hyc 的 hyc 用户, 其中 `-R` 表示递归设置。
 
 ```bash
 sudo chown -R hyc:hyc $dir
@@ -471,14 +471,14 @@ sudo chown -R hyc:hyc $dir
 
 ```bash
 lsblk # 查看设备名称
-fdisk /dev/sdb #进入fdisk
+fdisk /dev/sdb #进入 fdisk
 d #删除所有分区
-n #新建kernel、dts分区
+n #新建 kernel、dts 分区
 	p #选择主要分区
 	1 #第几块分区
 	40960 #起始点
 	303104 #结束点 也可以用 `+262144`
-n #新建rootfs分区
+n #新建 rootfs 分区
 	p
 	2
 	303106
@@ -486,7 +486,7 @@ n #新建rootfs分区
 w #保存退出
 ```
 
-40960表示20MB，303104是148MB 因为是以扇区为单位，一般来说扇区大小是512B，计算如下
+40960 表示 20MB，303104 是 148MB 因为是以扇区为单位，一般来说扇区大小是 512B，计算如下
 
 （20 * 1024 * 1024）/  512 = 40960
 
@@ -500,9 +500,9 @@ sudo dd if=./uboot.bin of=/dev/sdb bs=8K seek=1
 
 这个命令的意思是：
 
-1. 将uboot.bin烧录进sdb中
-2. 设置块大小为8K，意味着每次烧写数据块的大小为8K
-3. 设置偏单位为1，用于跳过引导扇区
+1. 将 uboot.bin 烧录进 sdb 中
+2. 设置块大小为 8K，意味着每次烧写数据块的大小为 8K
+3. 设置偏单位为 1，用于跳过引导扇区
 
 ！这个命令比较危险，需要谨慎使用。
 
@@ -524,9 +524,9 @@ fatload mmc 0:1 0x40200000 Image
 fatload mmc 0:1 0x4fa00000 xxx.dtb
 ```
 
-表示从`fat`存储卡`mmc 0`中加载第`1`个分区的文件`Image`到`0x40200000`地址处
+表示从 `fat` 存储卡 `mmc 0` 中加载第 `1` 个分区的文件 `Image` 到 `0x40200000` 地址处
 
-从`fat`存储卡`mmc 0`中加载第`1`个分区的文件`xxx.dtb`到`0x4fa00000`地址处
+从 `fat` 存储卡 `mmc 0` 中加载第 `1` 个分区的文件 `xxx.dtb` 到 `0x4fa00000` 地址处
 
 **从内存启动**
 
@@ -534,7 +534,7 @@ fatload mmc 0:1 0x4fa00000 xxx.dtb
 booti 0x40200000 - 0x4fa00000
 ```
 
-1. `booti`启动Image，
+1. `booti` 启动 Image，
 
 2. `0x40200000` 内核地址
 3. `0x4fa00000` 内核入口地址，和前面加载的设备树对应
@@ -542,9 +542,9 @@ booti 0x40200000 - 0x4fa00000
 **保存到设备**
 
 ```bash
-# 设置串口和波特率
+设置串口和波特率
 setenv bootargs 'console=ttyS0,115200'
-# 设置加载image和dtb，并从指定位置启动
+# 设置加载 image 和 dtb，并从指定位置启动
 setenv bootcmd 'fatload mmc 0:1 0x40200000 Image;fatload mmc 0:1 0x4fa00000 xxx.dtb;booti 0x40200000 - 0x4fa00000'
 # 保存变量
 saveenv
@@ -552,22 +552,22 @@ saveenv
 
 ## roots
 
-**制作rootfs**
+**制作 rootfs**
 
 - [busybox](https://zhuanlan.zhihu.com/p/510625073)
 
-Busybox本身包含了很了Linux命令，但是要编译其他程序的话需要手工下载、编译，如果它需要某些依赖库，你还需要手工下载、编译这些依赖库。
-如果想做一个极简的文件系统，可以使用Busybox手工制作。
+Busybox 本身包含了很了 Linux 命令，但是要编译其他程序的话需要手工下载、编译，如果它需要某些依赖库，你还需要手工下载、编译这些依赖库。
+如果想做一个极简的文件系统，可以使用 Busybox 手工制作。
 
 - [buildroot](https://zhuanlan.zhihu.com/p/311116158)
 
-它是一个自动化程序很高的系统，可以在里面配置、编译内核，配置编译u-boot、配置编译根文件系统。在编译某些APP时，它会自动去下载源码、下载它的依赖库，自动编译这些程序。
-Buildroot的语法跟一般的Makefile语法类似，很容易掌握。
+它是一个自动化程序很高的系统，可以在里面配置、编译内核，配置编译 u-boot、配置编译根文件系统。在编译某些 APP 时，它会自动去下载源码、下载它的依赖库，自动编译这些程序。
+Buildroot 的语法跟一般的 Makefile 语法类似，很容易掌握。
 
-**存入sd**
+**存入 sd**
 
 ```bash
-# 格式化分区
+格式化分区
 sudo mkfs.ext4 /dev/sdb2
 sudo mount /dev/sdb2 /mnt
 sudo cp -rf ./rootf_dir/* /mnt/* #根文件目录也是一个文件夹
@@ -582,7 +582,7 @@ setenv bootargs 'console=ttyS0,115200 root=/dev/mmcblk1p2 rootfstype=ext4 rootwa
 saveenv
 ```
 
-`mmcblk1p2`可能需要修改，注意看启动系统的时候的日至挂载到的mmc设备名称
+`mmcblk1p2` 可能需要修改，注意看启动系统的时候的日至挂载到的 mmc 设备名称
 
 # **树莓派**
 

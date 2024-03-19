@@ -63,7 +63,7 @@ git push -u origin main
 
 **在 github 新建一个仓库, 与本地关联**
 
-**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**，（是可以直接通过ssh访问github帐号，不需要密码登陆，一种安全验证）
+**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**，（是可以直接通过 ssh 访问 github 帐号，不需要密码登陆，一种安全验证）
 
 总结如下, GitHub 新建文件夹时也会提醒
 
@@ -207,7 +207,7 @@ git push -u origin myfeature
 
 - style - 代码格式(不影响代码运行的变动)
 
-- refactor - 重构、优化(既不增加新功能，也不是修复bug)
+- refactor - 重构、优化(既不增加新功能，也不是修复 bug)
 
 - perf - 性能优化
 

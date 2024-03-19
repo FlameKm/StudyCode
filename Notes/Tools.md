@@ -139,7 +139,7 @@ sudo apt install terminator
 
 ```bash
 terminator -s #打开布局选项面板
-terminator -l single #打开single面板
+terminator -l single #打开 single 面板
 ```
 
 
@@ -294,9 +294,39 @@ CompileFlags:
   Remove: [-fconserve-stack, -fno-allow-store-data-races, -fno-ipa-sra, -fno-var-tracking-assignments, -mpc-relative-literal-loads, -march=*, -mabi=*]
 ```
 
-### clang-format
+### .clangd-tidy (More Tips).
 
-clangd 自带clang-format 程序，使用.clang-format配置文件即可格式化程序，或者另外安装此拓展。
+ Also, the file `.clangd` has these configurations of diagnostics. If you need more, please view .clangd-tidy document.
+
+[使用 clang-tidy 在 CI 中自动修复代码中简单问题和检测代码问题](https://lrita.github.io/2023/03/21/auto-clang-tidy-cpp-code/)
+
+```bash
+Diagnostics:
+  ClangTidy:
+    Add:
+      [
+        performance-*,
+        bugprone-*,
+        portability-*,
+        modernize-*,
+      ]
+    Remove: [
+      modernize-use-trailing-return-type,
+      Declaration uses identifier*,
+      bugprone-reserved-identifier,
+      bugprone-easily-swappable-parameters,
+      bugprone-assignment-in-if-condition,
+      performance-no-int-to-ptr,
+    ]
+    CheckOptions:
+      WarnOnFloatingPointNarrowingConversion: false
+```
+
+
+
+### .clang-format (Format code)
+
+clangd 自带 clang-format 程序，使用.clang-format 配置文件即可格式化程序，或者另外安装此拓展。笔者猜测，存在 .clangd 中添加 clang-format 的方法，但由于时间关系并没有尝试或查阅。
 
 ## GDB
 
@@ -397,7 +427,7 @@ link_directories(lib)
 target_link_libraries(test libshow.a)
 ```
 
-### 创建compile-commands.json
+### 创建 compile-commands.json
 
 just define `CMAKE_EXPORT_COMPILE_COMMANDS` in cmake。
 
@@ -585,11 +615,11 @@ docker image ls
 
 ## Clang Format
 
-Use the file named .clang-format for formatting , and the configuration file is shown below:
+Use the file named .clang-format for formatting , and the configuration file is shown below.
 
 ```bash
 # Generated from CLion C/C++ Code Style settings
-BasedOnStyle: LLVM                         # 基于LLVM样式设置
+BasedOnStyle: LLVM                         # 基于 LLVM 样式设置
 AccessModifierOffset: -4                   # 访问修饰符偏移量
 AlignAfterOpenBracket: Align               # 对齐开放括号
 AlignConsecutiveAssignments: None          # 不对齐连续赋值
@@ -598,24 +628,24 @@ AllowAllArgumentsOnNextLine: false         # 不允许所有参数在下一行
 AllowAllConstructorInitializersOnNextLine: false  # 不允许所有构造函数初始化器在下一行
 AllowAllParametersOfDeclarationOnNextLine: false  # 不允许声明的所有参数在下一行
 AllowShortBlocksOnASingleLine: Always      # 总是允许短块在一行
-AllowShortCaseLabelsOnASingleLine: true    # 允许短case标签在一行
+AllowShortCaseLabelsOnASingleLine: true    # 允许短 case 标签在一行
 AllowShortFunctionsOnASingleLine: All      # 允许所有短函数在一行
-AllowShortIfStatementsOnASingleLine: Always  # 总是允许短if语句在一行
-AllowShortLambdasOnASingleLine: All       # 允许所有短lambda表达式在一行
+AllowShortIfStatementsOnASingleLine: Always  # 总是允许短 if 语句在一行
+AllowShortLambdasOnASingleLine: All       # 允许所有短 lambda 表达式在一行
 AllowShortLoopsOnASingleLine: true        # 允许短循环在一行
 AlwaysBreakAfterReturnType: None           # 不总是在返回类型后换行
 AlwaysBreakTemplateDeclarations: Yes       # 总是在模板声明后换行
 BreakBeforeBraces: Custom                 # 自定义大括号前换行设置
 BraceWrapping:
-  AfterCaseLabel: false                    # case标签后不换行
+  AfterCaseLabel: false                    # case 标签后不换行
   AfterClass: true                         # 类后换行
   AfterControlStatement: Never             # 控制语句后不换行
   AfterEnum: true                          # 枚举后换行
   AfterFunction: true                      # 函数后换行
   AfterNamespace: true                     # 命名空间后换行
   AfterUnion: true                         # 联合体后换行
-  BeforeCatch: true                        # catch前换行
-  BeforeElse: true                         # else前换行
+  BeforeCatch: true                        # catch 前换行
+  BeforeElse: true                         # else 前换行
   IndentBraces: false                      # 不缩进大括号
   SplitEmptyFunction: false                # 不在空函数体内换行
   SplitEmptyRecord: true                   # 在空记录内换行
@@ -623,35 +653,35 @@ BreakBeforeBinaryOperators: NonAssignment  # 在非赋值二元运算符前换�
 BreakBeforeTernaryOperators: true         # 在三元运算符前换行
 BreakConstructorInitializers: BeforeColon  # 在冒号前换行
 BreakInheritanceList: BeforeColon          # 在冒号前换行
-ColumnLimit: 0                            # 列限制为0
+ColumnLimit: 0                            # 列限制为 0
 CompactNamespaces: false                  # 命名空间不紧凑
-ContinuationIndentWidth: 4                # 续行缩进宽度为4
-IndentCaseLabels: true                    # 缩进case标签
+ContinuationIndentWidth: 4                # 续行缩进宽度为 4
+IndentCaseLabels: true                    # 缩进 case 标签
 IndentPPDirectives: None                  # 不缩进预处理指令
-IndentWidth: 4                            # 缩进宽度为4
+IndentWidth: 4                            # 缩进宽度为 4
 KeepEmptyLinesAtTheStartOfBlocks: true    # 在块开始保留空行
-MaxEmptyLinesToKeep: 2                    # 保留的最大空行数为2
+MaxEmptyLinesToKeep: 2                    # 保留的最大空行数为 2
 NamespaceIndentation: None                # 不缩进命名空间
 ObjCSpaceAfterProperty: false             # 属性后没有空格
 ObjCSpaceBeforeProtocolList: true         # 协议列表前有空格
 PointerAlignment: Right                   # 指针右对齐
 ReflowComments: false                     # 不重新排列注释
-SpaceAfterCStyleCast: false               # C风格类型转换后没有空格
+SpaceAfterCStyleCast: false               # C 风格类型转换后没有空格
 SpaceAfterLogicalNot: false               # 逻辑非后没有空格
 SpaceAfterTemplateKeyword: false          # 模板关键字后没有空格
 SpaceBeforeAssignmentOperators: true      # 赋值运算符前有空格
-SpaceBeforeCpp11BracedList: false         # C++11花括号列表前没有空格
+SpaceBeforeCpp11BracedList: false         # C++11 花括号列表前没有空格
 SpaceBeforeCtorInitializerColon: true     # 构造函数初始化列表冒号前有空格
 SpaceBeforeInheritanceColon: false        # 继承列表冒号前没有空格
 SpaceBeforeParens: ControlStatements      # 控制语句前的括号有空格
-SpaceBeforeRangeBasedForLoopColon: true   # 基于范围的for循环冒号前有空格
+SpaceBeforeRangeBasedForLoopColon: true   # 基于范围的 for 循环冒号前有空格
 SpaceInEmptyParentheses: false            # 空括号内没有空格
-SpacesBeforeTrailingComments: 0           # 尾注释前有0个空格
+SpacesBeforeTrailingComments: 0           # 尾注释前有 0 个空格
 SpacesInAngles: false                     # 尖括号内没有空格
-SpacesInCStyleCastParentheses: false      # C风格类型转换的括号内没有空格
+SpacesInCStyleCastParentheses: false      # C 风格类型转换的括号内没有空格
 SpacesInContainerLiterals: false          # 容器文字中没有空格
 SpacesInParentheses: false                # 括号内没有空格
 SpacesInSquareBrackets: false             # 方括号内没有空格
-TabWidth: 4                               # 制表符宽度为4
+TabWidth: 4                               # 制表符宽度为 4
 UseTab: Never                             # 不使用制表符
 SortIncludes: false						  # 不排序头文件 
