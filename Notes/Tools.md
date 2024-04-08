@@ -271,14 +271,16 @@ sudo gedit /usr/share/typora/resources/window.html
 
 ### Setting.json
 
-This is setting.json in vscode
+This is setting.json in vscode, please view [clangd web](https://fanlumaster.github.io/2023/11/30/clangd-all-command-line-options/) for more information. According to the prompt, we should use command `clangd --help` to get more
 
 ```json
     "clangd.arguments": [
-        "--compile-commands-dir=${workspaceFolder}/build" // config clangd working dir 
-        "--query-driver=/opt/gcc-ubuntu-9.3.0-2020.03-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc", // config gcc version
-        "--conpletion-style=detailed", // 显示完整的函数参数类型
-        "--header-insertion=never" // disable auto import include
+        "--compile-commands-dir=${workspaceFolder}/build", // 设置.compile-commands.json文件的路径
+        // "--completion-style=detailed", // 更详细的补全
+        "--header-insertion=never", // 不插入头文件
+        "--clang-tidy", // 启用clang-tidy
+        "--function-arg-placeholders=false", // 不显示函数参数的占位符
+        "--background-index", // 启用后台索引
     ],
    "clangd.fallbackFlags": [
         "-I/home/hyc/Project/X3MKernel_RCID/boot/kernel/include" // add include dir
@@ -294,7 +296,7 @@ CompileFlags:
   Remove: [-fconserve-stack, -fno-allow-store-data-races, -fno-ipa-sra, -fno-var-tracking-assignments, -mpc-relative-literal-loads, -march=*, -mabi=*]
 ```
 
-### .clangd-tidy (More Tips).
+### .clang-tidy (More Tips).
 
  Also, the file `.clangd` has these configurations of diagnostics. If you need more, please view .clangd-tidy document.
 
