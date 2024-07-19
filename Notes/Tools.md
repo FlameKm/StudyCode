@@ -298,7 +298,7 @@ CompileFlags:
 
 ### .clang-tidy (More Tips).
 
- Also, the file `.clangd` has these configurations of diagnostics. If you need more, please view .clangd-tidy document.
+ Also, the file `.clangd` has these configurations of diagnostics. If you need more related information, please view .clangd-tidy document.
 
 [使用 clang-tidy 在 CI 中自动修复代码中简单问题和检测代码问题](https://lrita.github.io/2023/03/21/auto-clang-tidy-cpp-code/)
 
@@ -429,7 +429,7 @@ link_directories(lib)
 target_link_libraries(test libshow.a)
 ```
 
-### 创建 compile-commands.json
+### Create compile-commands.json
 
 just define `CMAKE_EXPORT_COMPILE_COMMANDS` in cmake。
 
@@ -443,7 +443,23 @@ or, in txt
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 ```
 
+### Debug Info
 
+Add text below in CMakeLists.txt
+
+```bash
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+```
+
+or add the text in cmake parameter.
+
+```bash
+-DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -g"
+-DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -g"
+```
+
+Just like this, gcc's way also.
 
 
 
@@ -549,19 +565,6 @@ shutdown
 | --no-print-directory                                        | Turn off -w, even if it was turned on implicitly. | 关闭-w 选项，即使它是隐含开启的。            |
 | -W FILE, --what-if = FILE, --new-file = FILE, --assume-new = FILE | Consider FILE to be infinitely new.               | 将 FILE 视为无限新。                          |
 | --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
-
-## CMAKE
-
-### Debug Info
-
-Add info below in CMakeLists.txt
-
-```bash
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
-```
-
-Just like this, gcc's way also.
 
 # Other
 
