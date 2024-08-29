@@ -1,6 +1,6 @@
-# Ubuntu
+## Ubuntu
 
-## 输入法
+### 输入法
 
 https://zhuanlan.zhihu.com/p/508797663
 
@@ -28,7 +28,7 @@ im-config
 
  
 
-## 截图
+### 截图
 
 1. 安装
 
@@ -42,7 +42,7 @@ im-config
     flameshot gui -p /home/hyc/Pictures/flameshot -c
     ```
 
-## 剪切板历史记录
+### 剪切板历史记录
 
 1. 安装
 
@@ -56,7 +56,7 @@ im-config
     /usr/bin/diodon
     ```
 
-## ZSH
+### ZSH
 
 1. 安装
 
@@ -75,10 +75,10 @@ im-config
 3. 主题
 
     ```bash
-    # ZSH_THEME = "robbyrussell"
-    # ZSH_THEME = "random"
-    # ZSH_THEME = "refined"
-    # ZSH_THEME = "jtriley"
+    ## ZSH_THEME = "robbyrussell"
+    ## ZSH_THEME = "random"
+    ## ZSH_THEME = "refined"
+    ## ZSH_THEME = "jtriley"
     ZSH_THEME="pygmalion-virtualenv"
     ```
 
@@ -101,7 +101,7 @@ zsh-autosuggestions 自动补全
 5. 配置习惯
 
    ```bash
-   # close history share
+   ## close history share
    setopt no_share_history
    ```
 
@@ -119,7 +119,7 @@ zsh-autosuggestions 自动补全
 
 `%~` meaning current path
 
-## Meld - 比较文件差异
+### Meld - 比较文件差异
 
 一个比较的软件
 
@@ -127,7 +127,7 @@ zsh-autosuggestions 自动补全
 sudo apt install meld
 ```
 
-## Terminator - 终端
+### Terminator - 终端
 
 ```bash
 sudo apt install terminator
@@ -144,7 +144,7 @@ terminator -l single #打开 single 面板
 
 
 
-## Minicom - 串口
+### Minicom - 串口
 
 1. 安装
 
@@ -160,21 +160,21 @@ sudo apt install minicom
 
 **菜单**：`CTRL + A`
 
-## SSH
+### SSH
 
-### 安装
+#### 安装
 
 ```shell
 sudo apt-get install openssh-server
 ```
 
-### 登录
+#### 登录
 
 ssh 到指定端口 ``ssh xx user@ip``
 
 **如果是转发的流量 加上 -p**
 
-### 创建公钥
+#### 创建公钥
 
 - 配置
 
@@ -196,7 +196,7 @@ ssh-keygen
 
 一个 key 对应一个，需要连接的对应上就行
 
-### 使用公钥
+#### 使用公钥
 
 原理：如果使用私钥 `id_rsa` 登录服务器时候，服务器会检查所登录的用户的 `~/.ssh/authorized_keys` 里搜索是否存在本地的 `id_rsa.pub` 文本，存在的话则允许登录。
 
@@ -212,11 +212,11 @@ echo id_rsa.pub >> authorized_keys
 ssh-copy-id ${username}@${remote-server}
 ```
 
-## 自动登陆
+### 自动登陆
 
 https://blog.csdn.net/deephacking/article/details/134108938
 
-## 桌面图标
+### 桌面图标
 
 创建桌面图标文件, 以 clion 举例，需要注意的有 Exec、Icon
 
@@ -235,7 +235,7 @@ Categories=Application;
 
 重启后加载
 
-## Typora Plugin
+### Typora Plugin
 
 地址：https://github.com/obgnail/typora_plugin
 
@@ -256,7 +256,7 @@ sudo gedit /usr/share/typora/resources/window.html
 ```
 
 
-## Balena Etcher
+### Balena Etcher
 
 一款烧写镜像的软件
 
@@ -265,11 +265,11 @@ sudo gedit /usr/share/typora/resources/window.html
 [github]:(https://github.com/balena-io/etcher/releases)
 
 
-# VSCode
+## VSCode
 
-## clangd
+### clangd
 
-### Setting.json
+#### Setting.json
 
 This is setting.json in vscode, please view [clangd web](https://fanlumaster.github.io/2023/11/30/clangd-all-command-line-options/) for more information. According to the prompt, we should use command `clangd --help` to get more
 
@@ -287,7 +287,7 @@ This is setting.json in vscode, please view [clangd web](https://fanlumaster.git
     ],
 ```
 
-### .clangd
+#### .clangd
 
 In drivers develop, need create `.clangd` like below in work directory,  because there parameters are not supported by clangd.
 
@@ -296,7 +296,7 @@ CompileFlags:
   Remove: [-fconserve-stack, -fno-allow-store-data-races, -fno-ipa-sra, -fno-var-tracking-assignments, -mpc-relative-literal-loads, -march=*, -mabi=*]
 ```
 
-### .clang-tidy (More Tips).
+#### .clang-tidy (More Tips).
 
  Also, the file `.clangd` has these configurations of diagnostics. If you need more related information, please view .clangd-tidy document.
 
@@ -326,11 +326,11 @@ Diagnostics:
 
 
 
-### .clang-format (Format code)
+#### .clang-format (Format code)
 
 clangd 自带 clang-format 程序，使用.clang-format 配置文件即可格式化程序，或者另外安装此拓展。笔者猜测，存在 .clangd 中添加 clang-format 的方法，但由于时间关系并没有尝试或查阅。
 
-## GDB
+### GDB
 
 需要 C/C++插件和 GDB DEBUG 插件
 
@@ -356,9 +356,9 @@ clangd 自带 clang-format 程序，使用.clang-format 配置文件即可格式
     ]
 ```
 
-# ToolChain
+## ToolChain
 
-## Ninja
+### Ninja
 
 使用 `cmake` 生成 `Ninja` 工程文件
 
@@ -372,15 +372,15 @@ cmake -G Ninja ..
 ninja
 ```
 
-## CMake
+### CMake
 
-### 交叉编译
+#### 交叉编译
 
 参考链接：https://cmake.org/cmake/help/v3.25/manual/cmake.1.html#options
 
 <https://zhuanlan.zhihu.com/p/100367053>
 
-### 构建静态库和动态库
+#### 构建静态库和动态库
 
 假设目录结构是
 
@@ -415,21 +415,21 @@ ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
 **解析**
 
 ```cmake
-# - hello：就是正常的库名，⽣成的名字前⾯会加上lib，最终产⽣的⽂件是libhello.so
-# - SHARED，动态库 STATIC，静态库
-# - ${LIBHELLO_SRC} ：源⽂件
+## - hello：就是正常的库名，⽣成的名字前⾯会加上lib，最终产⽣的⽂件是libhello.so
+## - SHARED，动态库 STATIC，静态库
+## - ${LIBHELLO_SRC} ：源⽂件
 ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
 ```
 
-### **添加非标准库**
+#### **添加非标准库**
 
 ```cmake
-# 对应gcc的-L指定目录
+## 对应gcc的-L指定目录
 link_directories(lib)
 target_link_libraries(test libshow.a)
 ```
 
-### Create compile-commands.json
+#### Create compile-commands.json
 
 just define `CMAKE_EXPORT_COMPILE_COMMANDS` in cmake。
 
@@ -443,7 +443,7 @@ or, in txt
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 ```
 
-### Debug Info
+#### Debug Info
 
 Add text below in CMakeLists.txt
 
@@ -463,13 +463,13 @@ Just like this, gcc's way also.
 
 
 
-## **OpenOCD**
+### **OpenOCD**
 
 **vscode 使用 openocd 的方法链接：**
 
 [**https://www.jianshu.com/p/ca26b2227a58**](https://www.jianshu.com/p/ca26b2227a58)
 
-### 开启
+#### 开启
 
 ```shell
 openocd -f openocd.cfg
@@ -479,13 +479,13 @@ openocd -f openocd.cfg
 
 openocd 会默认在当前路径搜索 `openocd.cfg` 如果有的话会执行此程序，除非使用命令-f 指定。
 
-### 进入后台
+#### 进入后台
 
 比如使用 MobaXterm
 
 ![](media/image50.png)
 
-### 烧录
+#### 烧录
 
 在后台输入此命令即可烧录
 
@@ -502,7 +502,7 @@ openocd -f openocd.cfg -c 'program build/HELLO.elf reset exit'
 
 注意：这个方法需要指定 `cfg`，也就是前面的 `-f openocd.cfg`，这个必须要被包含，否则会导致初始化失败
 
-### 更简单的方法（本地）
+#### 更简单的方法（本地）
 
 openocd.cfg 配置文件里面能够写入执行程序，比如 reset run shutdown 等
 
@@ -529,7 +529,7 @@ reset run
 shutdown
 ```
 
-## MakeFile
+### MakeFile
 
 参考链接：<https://www.cnblogs.com/QG-whz/p/5461110.html>
 
@@ -566,10 +566,6 @@ shutdown
 | -W FILE, --what-if = FILE, --new-file = FILE, --assume-new = FILE | Consider FILE to be infinitely new.               | 将 FILE 视为无限新。                          |
 | --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
 
-# Other
-
-
-
 ## DOCKER 容器
 
 ### 添加容器
@@ -600,21 +596,21 @@ doker exec -it [容器名或者id] bash
 doker ps
 ```
 
-### **镜像**
+#### **镜像**
 
 ```shell
 拉取镜像
 docker pull xxx:tag
 
-# 镜像保存为 tar
+## 镜像保存为 tar
 docker save -o xxx.tar xxx:tag
 
-# 导入本地镜像
+## 导入本地镜像
 docker load --input xxx.tar
-# or
+## or
 cat xxx.tar.gz | docker import - openwrt/lede
 
-# 查看镜像
+## 查看镜像
 docker image ls
 ```
 
@@ -623,70 +619,294 @@ docker image ls
 Use the file named .clang-format for formatting , and the configuration file is shown below.
 
 ```bash
-# Generated from CLion C/C++ Code Style settings
-BasedOnStyle: LLVM                         # 基于 LLVM 样式设置
-AccessModifierOffset: -4                   # 访问修饰符偏移量
-AlignAfterOpenBracket: Align               # 对齐开放括号
-AlignConsecutiveAssignments: None          # 不对齐连续赋值
-AlignOperands: DontAlign                   # 不对齐操作数
-AllowAllArgumentsOnNextLine: false         # 不允许所有参数在下一行
-AllowAllConstructorInitializersOnNextLine: false  # 不允许所有构造函数初始化器在下一行
-AllowAllParametersOfDeclarationOnNextLine: false  # 不允许声明的所有参数在下一行
-AllowShortBlocksOnASingleLine: Always      # 总是允许短块在一行
-AllowShortCaseLabelsOnASingleLine: true    # 允许短 case 标签在一行
-AllowShortFunctionsOnASingleLine: All      # 允许所有短函数在一行
-AllowShortIfStatementsOnASingleLine: Always  # 总是允许短 if 语句在一行
-AllowShortLambdasOnASingleLine: All       # 允许所有短 lambda 表达式在一行
-AllowShortLoopsOnASingleLine: true        # 允许短循环在一行
-AlwaysBreakAfterReturnType: None           # 不总是在返回类型后换行
-AlwaysBreakTemplateDeclarations: Yes       # 总是在模板声明后换行
-BreakBeforeBraces: Custom                 # 自定义大括号前换行设置
+## Generated from CLion C/C++ Code Style settings
+BasedOnStyle: LLVM                         ## 基于 LLVM 样式设置
+AccessModifierOffset: -4                   ## 访问修饰符偏移量
+AlignAfterOpenBracket: Align               ## 对齐开放括号
+AlignConsecutiveAssignments: None          ## 不对齐连续赋值
+AlignOperands: DontAlign                   ## 不对齐操作数
+AllowAllArgumentsOnNextLine: false         ## 不允许所有参数在下一行
+AllowAllConstructorInitializersOnNextLine: false  ## 不允许所有构造函数初始化器在下一行
+AllowAllParametersOfDeclarationOnNextLine: false  ## 不允许声明的所有参数在下一行
+AllowShortBlocksOnASingleLine: Always      ## 总是允许短块在一行
+AllowShortCaseLabelsOnASingleLine: true    ## 允许短 case 标签在一行
+AllowShortFunctionsOnASingleLine: All      ## 允许所有短函数在一行
+AllowShortIfStatementsOnASingleLine: Always  ## 总是允许短 if 语句在一行
+AllowShortLambdasOnASingleLine: All       ## 允许所有短 lambda 表达式在一行
+AllowShortLoopsOnASingleLine: true        ## 允许短循环在一行
+AlwaysBreakAfterReturnType: None           ## 不总是在返回类型后换行
+AlwaysBreakTemplateDeclarations: Yes       ## 总是在模板声明后换行
+BreakBeforeBraces: Custom                 ## 自定义大括号前换行设置
 BraceWrapping:
-  AfterCaseLabel: false                    # case 标签后不换行
-  AfterClass: true                         # 类后换行
-  AfterControlStatement: Never             # 控制语句后不换行
-  AfterEnum: true                          # 枚举后换行
-  AfterFunction: true                      # 函数后换行
-  AfterNamespace: true                     # 命名空间后换行
-  AfterUnion: true                         # 联合体后换行
-  BeforeCatch: true                        # catch 前换行
-  BeforeElse: true                         # else 前换行
-  IndentBraces: false                      # 不缩进大括号
-  SplitEmptyFunction: false                # 不在空函数体内换行
-  SplitEmptyRecord: true                   # 在空记录内换行
-BreakBeforeBinaryOperators: NonAssignment  # 在非赋值二元运算符前换行
-BreakBeforeTernaryOperators: true         # 在三元运算符前换行
-BreakConstructorInitializers: BeforeColon  # 在冒号前换行
-BreakInheritanceList: BeforeColon          # 在冒号前换行
-ColumnLimit: 0                            # 列限制为 0
-CompactNamespaces: false                  # 命名空间不紧凑
-ContinuationIndentWidth: 4                # 续行缩进宽度为 4
-IndentCaseLabels: true                    # 缩进 case 标签
-IndentPPDirectives: None                  # 不缩进预处理指令
-IndentWidth: 4                            # 缩进宽度为 4
-KeepEmptyLinesAtTheStartOfBlocks: true    # 在块开始保留空行
-MaxEmptyLinesToKeep: 2                    # 保留的最大空行数为 2
-NamespaceIndentation: None                # 不缩进命名空间
-ObjCSpaceAfterProperty: false             # 属性后没有空格
-ObjCSpaceBeforeProtocolList: true         # 协议列表前有空格
-PointerAlignment: Right                   # 指针右对齐
-ReflowComments: false                     # 不重新排列注释
-SpaceAfterCStyleCast: false               # C 风格类型转换后没有空格
-SpaceAfterLogicalNot: false               # 逻辑非后没有空格
-SpaceAfterTemplateKeyword: false          # 模板关键字后没有空格
-SpaceBeforeAssignmentOperators: true      # 赋值运算符前有空格
-SpaceBeforeCpp11BracedList: false         # C++11 花括号列表前没有空格
-SpaceBeforeCtorInitializerColon: true     # 构造函数初始化列表冒号前有空格
-SpaceBeforeInheritanceColon: false        # 继承列表冒号前没有空格
-SpaceBeforeParens: ControlStatements      # 控制语句前的括号有空格
-SpaceBeforeRangeBasedForLoopColon: true   # 基于范围的 for 循环冒号前有空格
-SpaceInEmptyParentheses: false            # 空括号内没有空格
-SpacesBeforeTrailingComments: 0           # 尾注释前有 0 个空格
-SpacesInAngles: false                     # 尖括号内没有空格
-SpacesInCStyleCastParentheses: false      # C 风格类型转换的括号内没有空格
-SpacesInContainerLiterals: false          # 容器文字中没有空格
-SpacesInParentheses: false                # 括号内没有空格
-SpacesInSquareBrackets: false             # 方括号内没有空格
-TabWidth: 4                               # 制表符宽度为 4
-UseTab: Never                             # 不使用制表符
-SortIncludes: false						  # 不排序头文件 
+  AfterCaseLabel: false                    ## case 标签后不换行
+  AfterClass: true                         ## 类后换行
+  AfterControlStatement: Never             ## 控制语句后不换行
+  AfterEnum: true                          ## 枚举后换行
+  AfterFunction: true                      ## 函数后换行
+  AfterNamespace: true                     ## 命名空间后换行
+  AfterUnion: true                         ## 联合体后换行
+  BeforeCatch: true                        ## catch 前换行
+  BeforeElse: true                         ## else 前换行
+  IndentBraces: false                      ## 不缩进大括号
+  SplitEmptyFunction: false                ## 不在空函数体内换行
+  SplitEmptyRecord: true                   ## 在空记录内换行
+BreakBeforeBinaryOperators: NonAssignment  ## 在非赋值二元运算符前换行
+BreakBeforeTernaryOperators: true         ## 在三元运算符前换行
+BreakConstructorInitializers: BeforeColon  ## 在冒号前换行
+BreakInheritanceList: BeforeColon          ## 在冒号前换行
+ColumnLimit: 0                            ## 列限制为 0
+CompactNamespaces: false                  ## 命名空间不紧凑
+ContinuationIndentWidth: 4                ## 续行缩进宽度为 4
+IndentCaseLabels: true                    ## 缩进 case 标签
+IndentPPDirectives: None                  ## 不缩进预处理指令
+IndentWidth: 4                            ## 缩进宽度为 4
+KeepEmptyLinesAtTheStartOfBlocks: true    ## 在块开始保留空行
+MaxEmptyLinesToKeep: 2                    ## 保留的最大空行数为 2
+NamespaceIndentation: None                ## 不缩进命名空间
+ObjCSpaceAfterProperty: false             ## 属性后没有空格
+ObjCSpaceBeforeProtocolList: true         ## 协议列表前有空格
+PointerAlignment: Right                   ## 指针右对齐
+ReflowComments: false                     ## 不重新排列注释
+SpaceAfterCStyleCast: false               ## C 风格类型转换后没有空格
+SpaceAfterLogicalNot: false               ## 逻辑非后没有空格
+SpaceAfterTemplateKeyword: false          ## 模板关键字后没有空格
+SpaceBeforeAssignmentOperators: true      ## 赋值运算符前有空格
+SpaceBeforeCpp11BracedList: false         ## C++11 花括号列表前没有空格
+SpaceBeforeCtorInitializerColon: true     ## 构造函数初始化列表冒号前有空格
+SpaceBeforeInheritanceColon: false        ## 继承列表冒号前没有空格
+SpaceBeforeParens: ControlStatements      ## 控制语句前的括号有空格
+SpaceBeforeRangeBasedForLoopColon: true   ## 基于范围的 for 循环冒号前有空格
+SpaceInEmptyParentheses: false            ## 空括号内没有空格
+SpacesBeforeTrailingComments: 0           ## 尾注释前有 0 个空格
+SpacesInAngles: false                     ## 尖括号内没有空格
+SpacesInCStyleCastParentheses: false      ## C 风格类型转换的括号内没有空格
+SpacesInContainerLiterals: false          ## 容器文字中没有空格
+SpacesInParentheses: false                ## 括号内没有空格
+SpacesInSquareBrackets: false             ## 方括号内没有空格
+TabWidth: 4                               ## 制表符宽度为 4
+UseTab: Never                             ## 不使用制表符
+SortIncludes: false						  ## 不排序头文件 
+
+```
+
+## GIT 版本控制
+
+### 常用命令
+
+| 命令                  | 功能                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| git init              | 创建为可管理仓库                                             |
+| git status            | 查看当前版本状态                                             |
+| git add               | 添加内容到仓库 一般 ``git add . `` 表示全部添加              |
+| git commit            | 提交到本地仓库 需要添加注释 具体为 ``git commit -m “user commit`` |
+| git remote add origin | 与网络仓库绑定 ``git remote add origin git@github.com:FlameKm/test.git`` |
+| git push              | 提交到网上 一般举例 ``git push origin master``               |
+| git log               | 日志                                                         |
+| git clone             | 克隆到本地                                                   |
+
+### 下载
+
+有些需要绑定, 即 ``ssh key``
+
+使用命令
+
+```shell
+git clone
+```
+
+指定分支
+
+```bash
+git clone -b <指定分支名> <远程仓库地址> 
+```
+
+### 上传
+
+[如何使用 git 命令行上传项目到 github_DreamMakers 的博客-CSDN 博客_git 新建仓库上传代码](https://blog.csdn.net/majinggogogo/article/details/81152938)
+
+新建文件夹 test
+
+在 test 内输入 ``git init``
+
+![](/home/hyc/Project/StudyCode/Notes/media/image58.png)
+
+放入代码
+
+```shell
+加全部内容
+git add . 
+
+#添加到本地仓库
+git commit -m “注释内容” 
+
+## 绑定本地仓库
+git remote add origin <git@github.com:FlameKm/test.git>
+
+## 更新
+git pull --rebase origin 分支名
+
+## 分支
+git branch -M main
+
+## 提交
+git push -u origin main
+```
+
+**在 github 新建一个仓库, 与本地关联**
+
+**似乎需要 github(或其它)ssh key 绑定本地, 否则不安全**，（是可以直接通过 ssh 访问 github 帐号，不需要密码登陆，一种安全验证）
+
+总结如下, GitHub 新建文件夹时也会提醒
+
+```shell
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:xxx.git
+git push -u origin main
+```
+
+### 更新
+
+更新到仓库
+
+```shell
+查变更
+git status
+
+#更新全部修改到本地仓库 
+git add .
+
+#提交
+git commit -m "说明信息"
+
+#上传到指定分支
+git push origin master
+```
+
+更新到本地
+
+```bash
+git pull 
+git pull origin <分支名称>
+```
+
+
+
+### 版本回退
+
+[Git 使用教程, 最详细，最傻瓜，最浅显，真正手把手教 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/30044692)
+
+### 子模块 submodule
+
+- 添加
+
+```shell
+git submodule add <https://github.com/xxx/child.git>
+```
+
+- 拉取方式一
+
+```shell
+git submodule init & git submodule update
+```
+
+- 拉取方式二
+
+```shell
+git clone --recurse-submodules <https://github.com/xxx/parent.git>
+```
+
+  也可以设置 `submodule.recurse` 为 `true`，这样每次拉去都是带这个参数的拉去 `--recurse-submodules`
+
+- 删除：
+
+```shell
+rm -rf 子模块目录 #删除子模块目录及源码
+vim .gitmodules ## 删除项目目录下.gitmodules 文件中子模块相关条目
+vim .git/config ## 删除配置项中子模块相关条目
+rm .git/modules/xxx #删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可
+
+## 执行完成后，再执行添加子模块命令即可，如果仍然报错，执行如下：
+git rm -f --cached 子模块名称
+```
+
+
+### 重新排除.gitignore
+
+```shell
+git rm -r --cached .
+git add .
+```
+
+### 主干开发
+
+1. 新建分支
+
+```Shell
+## 检查
+git checkout main
+git pull #仅主分支可用不带--base
+## 新建分支
+git checkout -b myfeature
+```
+
+2. 分支正常开发后提交
+
+```Shell
+git add files.c
+git commit -m "[xx]: xxx"
+```
+
+3. 同步主干
+
+```Shell
+git fetch origin
+```
+
+4. 同步主干内容
+
+```Shell
+git rebase origin/main
+```
+
+5. 推送到仓库
+
+```Shell
+git push -u origin myfeature 
+```
+
+### Commit 撤销
+
+1. 只改变注释 `git commit --amend` 
+2. 撤回到上一个分支 `git reset --soft HEAD^`， soft 参数查看 RESET 章节, 
+
+### RESET
+
+- **--mixed**  不删除工作空间改动代码，撤销 commit，并且撤销 git add . 操作
+- **--soft** 不删除工作空间改动代码，撤销 commit，不撤销 git add . 
+- **--hard ** 删除工作空间改动代码，撤销 commit，撤销 git add .
+
+### Commit Head
+
+- feat - 新功能 feature
+
+- fix - 修复 bug
+
+- docs - 文档注释
+
+- style - 代码格式(不影响代码运行的变动)
+
+- refactor - 重构、优化(既不增加新功能，也不是修复 bug)
+
+- perf - 性能优化
+
+- test - 增加测试
+
+- chore - 构建过程或辅助工具的变动
+
+- revert - 回退
+
+- build - 打包
+
