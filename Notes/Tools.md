@@ -16,7 +16,7 @@ sudo apt install fcitx5
 im-config
 ```
 
-选择 `fcitx 5`
+选择 `fcitx 5`，添加中文语言支持
 
 打开配置添加
 
@@ -26,35 +26,49 @@ im-config
 
 [github]: https://github.com/search?q=fcitx5+theme&amp;type=Repositories
 
- 
+4. All In One Config
+
+[web from]:https://www.debuggerx.com/2023/09/20/fcitx5-customizer/
+
+```
+curl -sSL https://www.debuggerx.com/fcitx5_customizer/fcitx5_customizer.sh | bash -s -- recommend
+```
+
+包括添加词库，关闭非常用快捷键，emoji表情，常用符号，更换主题等多种配置，一键配置解决烦恼。
 
 ### 截图
 
 1. 安装
 
-    ```bash
-    sudo apt install flameshot
-    ```
+   ```bash
+   sudo apt install flameshot
+   ```
 
-2. 快捷截图命令，设备为快捷方式
+2. 快捷截图命令，在系统中设置为快捷方式
 
-    ```bash
-    flameshot gui -p /home/hyc/Pictures/flameshot -c
-    ```
+   ```bash
+   flameshot gui -p /home/hyc/Pictures/flameshot -c
+   ```
+
+-p 保存路径
+
+gui 顾名思义
+
+-c 复制图片路径
 
 ### 剪切板历史记录
 
 1. 安装
 
-    ```bash
-    sudo apt install diodon
-    ```
+   ```bash
+   sudo apt install diodon
+   ```
 
 2. 快捷键(命令)	
 
-    ```bash
-    /usr/bin/diodon
-    ```
+   ```bash
+   /usr/bin/diodon
+   ```
 
 ### ZSH
 
@@ -74,13 +88,13 @@ im-config
 
 3. 主题
 
-    ```bash
-    ## ZSH_THEME = "robbyrussell"
-    ## ZSH_THEME = "random"
-    ## ZSH_THEME = "refined"
-    ## ZSH_THEME = "jtriley"
-    ZSH_THEME="pygmalion-virtualenv"
-    ```
+   ```bash
+   ## ZSH_THEME = "robbyrussell"
+   ## ZSH_THEME = "random"
+   ## ZSH_THEME = "refined"
+   ## ZSH_THEME = "jtriley"
+   ZSH_THEME="pygmalion-virtualenv"
+   ```
 
 4. 插件
 
@@ -264,6 +278,24 @@ sudo gedit /usr/share/typora/resources/window.html
 
 [github]:(https://github.com/balena-io/etcher/releases)
 
+### System Monitor
+
+[web]:https://www.cnblogs.com/jsdy/p/11461277.html
+
+```
+sudo add-apt-repository ppa:fossfreedom/indicator-sysmonitor 
+sudo apt-get update
+sudo apt-get install indicator-sysmonitor
+```
+
+多了两个程序，暂不知道是否一定要添加源，怀疑安装这两个程序即可。
+
+System Monitor：在apt中 `gnome-system-monitor`
+
+System Monitor Indicator： 在apt中 `indicator-sysmonitor`
+
+
+
 
 ## VSCode
 
@@ -425,8 +457,8 @@ ADD_LIBRARY(hello SHARED ${LIBHELLO_SRC})
 
 ```cmake
 ## 对应gcc的-L指定目录
-link_directories(lib)
-target_link_libraries(test libshow.a)
+target_link_directories(prj_test PRIVATE lib)
+target_link_libraries(prj_test PRIVATE libfun.a)
 ```
 
 #### Create compile-commands.json
@@ -535,36 +567,36 @@ shutdown
 
 命令：
 
-| 指令                                                        | 内容原文                                          | 意思                                        |
-| ----------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------- |
-| -b, -m                                                      | Ignored for compatibility.                        | 为了兼容性而忽略。                          |
-| -B, --always-make                                           | Unconditionally make all targets.                 | 无条件地构建所有目标。                      |
-| -C DIRECTORY                                                | Change to DIRECTORY before doing anything.        | 在执行任何操作之前切换到 DIRECTORY 目录。     |
-| -d                                                          | Print lots of debugging information.              | 打印大量调试信息。                          |
-| --debug [= FLAGS]                                             | Print various types of debugging information.     | 打印各种类型的调试信息。                    |
-| -e, --environment-overrides                                 | Environment variables override makefiles.         | 环境变量覆盖 makefiles 中的定义。             |
-| -f FILE, --file = FILE, --makefile = FILE                       | Read FILE as a makefile.                          | 以 FILE 作为 makefile 读取。                    |
-| -h, --help                                                  | Print this message and exit.                      | 打印此消息并退出。                          |
-| -i, --ignore-errors                                         | Ignore errors from commands.                      | 忽略命令中的错误。                          |
-| -I DIRECTORY                                                | Search DIRECTORY for included makefiles.          | 在 DIRECTORY 中搜索包含的 makefile。           |
-| -j [N], --jobs [= N]                                          | Allow N jobs at once; infinite jobs with no arg.  | 允许同时进行 N 个作业；不带参数表示无限作业。 |
-| -k, --keep-going                                            | Keep going when some targets can't be made.       | 在某些目标无法构建时继续。                  |
-| -l [N], --load-average [= N], --max-load [= N]                  | Don't start multiple jobs unless load is below N. | 除非负载低于 N，否则不启动多个作业。         |
-| -L, --check-symlink-times                                   | Use the latest mtime between symlinks and target. | 在符号链接和目标之间使用最新的修改时间。    |
-| -n, --just-print, --dry-run, --recon                        | Don't actually run any commands; just print them. | 不实际运行任何命令；仅打印命令。            |
-| -o FILE, --old-file = FILE, --assume-old = FILE                 | Consider FILE to be very old and don't remake it. | 将 FILE 视为非常旧，不重新构建。              |
-| -p, --print-data-base                                       | Print make's internal database.                   | 打印 make 的内部数据库。                      |
-| -q, --question                                              | Run no commands; exit status says if up to date.  | 不执行任何命令；退出状态表示是否为最新。    |
-| -r, --no-builtin-rules                                      | Disable the built-in implicit rules.              | 禁用内置的隐含规则。                        |
-| -R, --no-builtin-variables                                  | Disable the built-in variable settings.           | 禁用内置的变量设置。                        |
-| -s, --silent, --quiet                                       | Don't echo commands.                              | 不回显命令。                                |
-| -S, --no-keep-going, --stop                                 | Turns off -k.                                     | 关闭-k 选项。                                |
-| -t, --touch                                                 | Touch targets instead of remaking them.           | 触摸目标，而不是重新构建。                  |
-| -v, --version                                               | Print the version number of make and exit.        | 打印 make 的版本号并退出。                    |
-| -w, --print-directory                                       | Print the current directory.                      | 打印当前目录。                              |
-| --no-print-directory                                        | Turn off -w, even if it was turned on implicitly. | 关闭-w 选项，即使它是隐含开启的。            |
+| 指令                                                         | 内容原文                                          | 意思                                          |
+| ------------------------------------------------------------ | ------------------------------------------------- | --------------------------------------------- |
+| -b, -m                                                       | Ignored for compatibility.                        | 为了兼容性而忽略。                            |
+| -B, --always-make                                            | Unconditionally make all targets.                 | 无条件地构建所有目标。                        |
+| -C DIRECTORY                                                 | Change to DIRECTORY before doing anything.        | 在执行任何操作之前切换到 DIRECTORY 目录。     |
+| -d                                                           | Print lots of debugging information.              | 打印大量调试信息。                            |
+| --debug [= FLAGS]                                            | Print various types of debugging information.     | 打印各种类型的调试信息。                      |
+| -e, --environment-overrides                                  | Environment variables override makefiles.         | 环境变量覆盖 makefiles 中的定义。             |
+| -f FILE, --file = FILE, --makefile = FILE                    | Read FILE as a makefile.                          | 以 FILE 作为 makefile 读取。                  |
+| -h, --help                                                   | Print this message and exit.                      | 打印此消息并退出。                            |
+| -i, --ignore-errors                                          | Ignore errors from commands.                      | 忽略命令中的错误。                            |
+| -I DIRECTORY                                                 | Search DIRECTORY for included makefiles.          | 在 DIRECTORY 中搜索包含的 makefile。          |
+| -j [N], --jobs [= N]                                         | Allow N jobs at once; infinite jobs with no arg.  | 允许同时进行 N 个作业；不带参数表示无限作业。 |
+| -k, --keep-going                                             | Keep going when some targets can't be made.       | 在某些目标无法构建时继续。                    |
+| -l [N], --load-average [= N], --max-load [= N]               | Don't start multiple jobs unless load is below N. | 除非负载低于 N，否则不启动多个作业。          |
+| -L, --check-symlink-times                                    | Use the latest mtime between symlinks and target. | 在符号链接和目标之间使用最新的修改时间。      |
+| -n, --just-print, --dry-run, --recon                         | Don't actually run any commands; just print them. | 不实际运行任何命令；仅打印命令。              |
+| -o FILE, --old-file = FILE, --assume-old = FILE              | Consider FILE to be very old and don't remake it. | 将 FILE 视为非常旧，不重新构建。              |
+| -p, --print-data-base                                        | Print make's internal database.                   | 打印 make 的内部数据库。                      |
+| -q, --question                                               | Run no commands; exit status says if up to date.  | 不执行任何命令；退出状态表示是否为最新。      |
+| -r, --no-builtin-rules                                       | Disable the built-in implicit rules.              | 禁用内置的隐含规则。                          |
+| -R, --no-builtin-variables                                   | Disable the built-in variable settings.           | 禁用内置的变量设置。                          |
+| -s, --silent, --quiet                                        | Don't echo commands.                              | 不回显命令。                                  |
+| -S, --no-keep-going, --stop                                  | Turns off -k.                                     | 关闭-k 选项。                                 |
+| -t, --touch                                                  | Touch targets instead of remaking them.           | 触摸目标，而不是重新构建。                    |
+| -v, --version                                                | Print the version number of make and exit.        | 打印 make 的版本号并退出。                    |
+| -w, --print-directory                                        | Print the current directory.                      | 打印当前目录。                                |
+| --no-print-directory                                         | Turn off -w, even if it was turned on implicitly. | 关闭-w 选项，即使它是隐含开启的。             |
 | -W FILE, --what-if = FILE, --new-file = FILE, --assume-new = FILE | Consider FILE to be infinitely new.               | 将 FILE 视为无限新。                          |
-| --warn-undefined-variables                                  | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。              |
+| --warn-undefined-variables                                   | Warn when an undefined variable is referenced.    | 当引用未定义的变量时发出警告。                |
 
 ## DOCKER 容器
 

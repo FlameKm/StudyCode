@@ -510,7 +510,7 @@ int fun(int x);
 
 int main()
 {
-    printf"hello world");
+    printf("hello world");
     int val = fun(3);
     printf("%d", val);
     return 0;
@@ -1284,13 +1284,33 @@ make modules_install ## 将编译好的模块文件安装到系统中
 make install ## 更新内核
 ```
 
-### Drive Install
+### Drives Install
+
+1. **Install To Rootfs**
+
+```
+make modules_install INSTALL_MOD_PATH=xxx INSTALL_NO_SUBDIR=1 
+```
+
+Parameter
+
+- INSTALL_MOD_PATH: rootfs path, such as `/`
+- INSTALL_NO_SUBDIR: no create subdirectories, *.ko files position is at `lib/modules/xxx/`
+- NSTALL_MOD_STRIP: remove debug infomation
+
+2. **In system**
 
 安装 `insmod xxx` or  `modprobe xxx`
 
 卸载 `rmmod xxx` or  `modprobe -r xxx`
 
 编译内核选项中，`-m` 表示动态模块，`-y` 表示编译进内核
+
+
+
+ 
+
+
 
 ## Device Tree
 
