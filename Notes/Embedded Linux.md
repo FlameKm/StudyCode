@@ -660,7 +660,7 @@ echo 104> /sys/class/gpio/unexport
 
 ### I2C Subsystem
 
-#### base
+#### Base
 
 **独立模块**
 
@@ -932,6 +932,55 @@ schedule_delayed_work(&dwork, delay); //delay number of jiffies
 // other
 flush_delayed_work(&xx_dwork);
 cancel_delayed_work(&xx_dwork); // use to exit
+```
+
+
+
+### Wait Queue
+
+- Base
+
+```c
+// 定义
+wait_queue_head_t queue
+
+// init
+init_waitqueue_head(&queue)
+DECLARE_WAIT_QUEUE_HEAD(name)
+
+    
+// to waiting
+// condition: contining run(true) waiting again(false)
+wait_event(queue, condition)
+wait_event_interruptible(queue, condition)
+wait_event_timeout(queue, condition, timeout)
+wait_event_interruptible_timeout(queue, condition, timeout)
+    
+// to wakeup
+wake_up(&queue)
+wake_up_interruptible(&queue)
+```
+
+- Demo
+
+```c
+static DECLARE_WAIT_QUEUE_HEAD(my_queue);
+static int condition = 0; // 0: not ready, 1: ready
+
+static void workup()
+{
+	//...
+	condition = 1;
+	wake_up_interruptible(my_queue); // wake up the waiting queue
+	//...
+}
+
+static void to_use()
+{
+	//...
+	wait_event_interruptible(my_queue, condition); // waiting wakeup
+	//...
+}
 ```
 
 
