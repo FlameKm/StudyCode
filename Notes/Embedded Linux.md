@@ -1552,3 +1552,10 @@ saveenv
 ```
 
 `mmcblk1p2` 可能需要修改，注意看启动系统的时候的日至挂载到的 mmc 设备名称
+
+## Startup Process
+
+### Uboot
+
+https://www.wolai.com/jwvHgQaateQWQyqJatZJZp
+
