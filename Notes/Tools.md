@@ -493,7 +493,13 @@ or add the text in cmake parameter.
 
 Just like this, gcc's way also.
 
+#### static
 
+相当于编译的时候添加的命令
+
+```
+#SET(CMAKE_EXE_LINKER_FLAGS "-static")
+```
 
 ### **OpenOCD**
 
