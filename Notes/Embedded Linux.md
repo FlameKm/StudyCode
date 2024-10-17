@@ -594,6 +594,28 @@ Demo.
 LD_TRACE_LOADED_OBJECTS=1 ./get_sif_data
 ```
 
+### Shell
+
+判断符号 []
+
+| 类型       | 符号  | 作用描述                                                     | 例如                      |
+| ---------- | ----- | ------------------------------------------------------------ | ------------------------- |
+| 字符串比较 | `=`   | 检查两个字符串是否相等                                       | `[ "$str1" = "$str2" ]`   |
+| 字符串比较 | `!=`  | 检查两个字符串是否不相等                                     | `[ "$str1" != "$str2" ]`  |
+| 字符串测试 | `-z`  | 检查字符串是否为空，即长度为零 zero length                   | `[ -z "$str" ]`           |
+| 字符串测试 | `-n`  | 检查字符串是否不为空，即长度大于零 non-zero length           | `[ -n "$str" ]`           |
+| 数值比较   | `-eq` | 检查两个数字是否相等 equal                                   | `[ "$num1" -eq "$num2" ]` |
+| 数值比较   | `-ne` | 检查两个数字是否不相等 not equal                             | `[ "$num1" -ne "$num2" ]` |
+| 数值比较   | `-gt` | 检查第一个数字是否大于第二个数字 greater than                | `[ "$num1" -gt "$num2" ]` |
+| 数值比较   | `-lt` | 检查第一个数字是否小于第二个数字 less than                   | `[ "$num1" -lt "$num2" ]` |
+| 数值比较   | `-ge` | 检查第一个数字是否大于或等于第二个数字 greater than or equal | `[ "$num1" -ge "$num2" ]` |
+| 数值比较   | `-le` | 检查第一个数字是否小于或等于第二个数字 less than or equal    | `[ "$num1" -le "$num2" ]` |
+| 文件测试   | `-e`  | 检查文件是否存在 exists                                      | `[ -e "$file" ]`          |
+| 文件测试   | `-d`  | 检查指定路径是否是一个目录 directory                         | `[ -d "$directory" ]`     |
+| 文件测试   | `-r`  | 检查文件是否可读 readable                                    | `[ -r "$file" ]`          |
+| 文件测试   | `-w`  | 检查文件是否可写 writable                                    | `[ -w "$file" ]`          |
+| 文件测试   | `-x`  | 检查文件是否可执行 executable                                | `[ -x "$file" ]`          |
+
 ## Drives Code
 
 ### **GPIO**
@@ -1207,7 +1229,7 @@ hrtimer_cancel(&timer);
 | ERFKILL         | 132  | 由于 RF-kill 而无法操作          |
 | EHWPOISON       | 133  | 内存分页有硬件错误               |
 
-除此之外，可以通过`errno`来查询。
+除此之外，可以通过 `errno -l` 来查询。
 
 ```bash
 sudo apt install moreutils 
@@ -1553,9 +1575,218 @@ saveenv
 
 `mmcblk1p2` 可能需要修改，注意看启动系统的时候的日至挂载到的 mmc 设备名称
 
+
+
+## Secure
+
+### ATF
+
+https://www.cnblogs.com/Wangzx000/p/17792870.html
+
+
+
 ## Startup Process
+
+### Uboot Before
+
+1. **判断启动介质**
+
+首先一上电，会从片内 ROM 执行程序，内容是：先 初始化 cpu 时钟、看门狗等，同时读取 GPIO 判断启动介质。
+
+常用启动介质有：SD、EMMC、USB、FLASH 等
+
+(选择启动介质，有些 SOC 是根据有优先级来判断)
+
+然后将 介质内第一部分程序 拷贝到 SRAM 执行，也就是 下文的 SPL 或 TPL。 
+
+2. **不带 ATF 启动**
+
+多数 linux 设备的处理器中没有集成大容量 FLASH 和 SRAM，因此，需要搭载外设，最主要的有 DRMA 和 EMMC。并且，多数设备不属于 XIP（eXecute In Place）设备，访问他们需要经过 eMMC，并且将指令复制到 DRAM 中再运行。
+
+因此，在启动 uboot 之前，需要对这些设备进行初始化。也称之为 `Pre-Loader`，通常 `Pre-Loader` 分为 `TPL`（Tiny Program Loader）和 `SPL`（Secondary Program Loader），分别用来初始化 DRAM 和加载 U-Boot。
+
+而在 `Pre-Loader` 之前，还有一个过程，称为 `BootROM`，是芯片固化的程序。
+
+启动顺序：
+
+```
+BootROM --> TPL --> BootROM(Back) --> SPL--> U-Boot --> Kernel --> ...
+```
+
+- BootROM：这是内嵌在芯片的固件，芯片出厂时已经固化，它在芯片上电时首先被执行；它的任务主要是寻找并执行存储设备设备中的 TPL（通常是 FLASH，但也能从 eMMC 下面的存储设备中加载，换句话说 BootROM 也能初始化 eMMC)；这个阶段芯片使用片内自带 SRAM 作为内存运行，SRAM 速度极快但成本极高，容量普遍只有几百 KB；同时也反映了为什么会分为两次加载，因为此时没有初始化 DRAM， 只有几百 KB 大小的 SRAM， 没法完整加载 U-Boot 程序；
+- TPL：这部分负责初始化 DRAM，然后跳到 SPL 继续执行（这个过程会跳回 BootROM），并且寻找储存设备中合适的 U-Boot。
+- SPL：复制 U-Boot 到内存，执行引导程序。
+
+2. **ATF**
+
+查看 Secure 部分
 
 ### Uboot
 
+#### **Source code**
+
 https://www.wolai.com/jwvHgQaateQWQyqJatZJZp
+
+#### **Uboot to kernel**
+
+其中，Uboot 到 kernel 部分主要是看启动脚本。需要关注启动位置及启动命令(变量)
+
+uboot 启动内核前，已经完成了初始化必要硬件，分配内存。
+
+此时，uboot 需要将控制权交给 linux。而内核是运行在 DDR 中的，因此需要将内核重定位到 DDR 中，同时还需要传递参数给 kernel，比如 quite， conston = xxx, 等等参数。
+
+kernel 的启动位置有 emmc、sd、usb、tftp、nfs 等。也就是启动介质，内核存放的地方。
+
+#### **Demo**
+
+以地平线（安卓镜像，emmc）的为例，启动脚本是
+
+```
+bootcmd=watchdog on;
+part size mmc 0 boot bootimagesize;
+part start mmc 0 boot bootimageblk;
+mmc read 0x10000000 ${bootimageblk} ${bootimagesize};
+bootm 0x10000000;
+```
+
+2-3 行： 表示获取 MMC0 上，名为”boot”分区的大小和块起始地址，然后读取到 DDR 当中。
+
+bootm：表示从内存中 0x10000000 启动内核
+
+除了 bootm 启动的之外，还有 booti、bootz 等，用来启动其他镜像 Image, zImage 等等。他们的本质都是根据启动方式，从存放镜像的介质中加载到 ddr，之后调用 bootm。
+
+bootm 会检测脚本的类型，需要在配置文件中打开对应的支持。
+
+#### **Code of Bootm**
+
+1.  执行的步骤如下：
+   1. 检查校验镜像的类型，是否支持取决于 uboot 的 config 配置，比如 Image.lz4 需要 `CONFIG_LZ4` 配置选项。
+   2. 传递参数给内核
+   3. 运行内核
+2. bootm 命令有三个参数，功能为下
+   1. 第一个：内核映像的内存地址。
+   2. 第二个：initrd 的内存地址（可选）。如果不需要 initrd，可以用 `-` 表示不使用。
+   3. 第三个：设备树的内存地址（可选）。
+3. 而在上面地平线的脚本中，只执行了一个参数，但是却是存在设备树的传入。是因为，将存储内核的这部分区域，实现成了 Android 镜像，也可以通过启动日志看出。因此，实际上真正启动内核的时候，也会将设备树的内存地址传递到内核。
+
+#### **Transfer parameters**
+
+由于引导是单向的，因此，只能通过约定的方式进行参数的传递。由于不知道可用文件的地址与位置，则需要通过 CPU 寄存器来进行参数的传递。
+
+- R0：等于 0
+- R1：是否是支持的 CPU ID
+- R2：块内存的基地址，包含的是一系列的参数。
+
+### Rootfs  After
+
+#### initab
+
+作为第一个启动的脚本，长这样。
+
+```Bash
+# /etc/inittab
+
+# Startup the system
+null::sysinit:/bin/mount -t proc proc /proc
+null::sysinit:/bin/mount -o remount,rw /
+null::sysinit:/bin/mount -a
+null::sysinit:/bin/mkdir -p /dev/pts /dev/shm
+null::sysinit:/bin/mkdir -p /run/lock/subsys
+#::sysinit:/sbin/swapon -a
+null::sysinit:/bin/ln -sf /proc/self/fd /dev/fd
+null::sysinit:/bin/ln -sf /proc/self/fd/0 /dev/stdin
+null::sysinit:/bin/ln -sf /proc/self/fd/1 /dev/stdout
+null::sysinit:/bin/ln -sf /proc/self/fd/2 /dev/stderr
+null::sysinit:/bin/hostname -F /etc/hostname
+# now run any rc scripts
+null::sysinit:/etc/init.d/rcS
+
+# Put a getty on the serial port
+console::respawn:/sbin/getty -L  console 0 vt100 # GENERIC_SERIAL
+
+# Stuff to do for the 3-finger salute
+#::ctrlaltdel:/sbin/reboot
+
+# Stuff to do before rebooting
+::shutdown:/etc/init.d/rcK
+#::shutdown:/sbin/swapoff -a
+::shutdown:/bin/umount -a -r
+```
+
+值得注意的以下注意的点
+
+- `mount -a` 和 `umount -r` 是通过/etc/fstab 内来实现的。
+- `null` 表示不输出启动日志
+
+#### rcS
+
+```Bash
+#!/bin/sh
+
+# Start all init scripts in /etc/init.d
+# executing them in numerical order.
+#
+for i in /etc/init.d/S??* ;do
+     # Ignore dangling symlinks (if any).
+     [ ! -f "$i" ] && continue
+     case "$i" in
+        *.sh)
+            # Source shell script for speed.
+            (
+                trap - INT QUIT TSTP
+                set start
+                . $i
+            )
+            ;;
+        *)
+            # No sh extension, so fork subprocess.
+            $i start
+            ;;
+    esac
+done
+```
+
+会遍历/etc/init.d 下名为 `Sxx` 的脚本，由于 shell 脚本的特性，会根据数字大小确定启动优先级，一般用户的自定义的启动脚本就在这进行执行。比如 `S02sysctl` 会比 `S50Drobear` 执行的早。
+
+相对应 rcS 的还有 rcK
+
+会遍历/etc/init.d 下名为 `Sxx` 的脚本，由于 shell 脚本的特性，会根据数字大小确定启动优先级，一般用户的自定义的启动脚本就在这进行执行。比如 `S02sysctl` 会比 `S50Drobear` 执行的早。
+
+相对应 rcS 的还有 rcK
+
+在执行 reboot 或者 poweroff 等主动关闭系统的程序中会执行，在脚本中区别就是第一个参数 start 和 stop 的区别。
+
+因此，名为 `Sxx` 的脚本应该实现通过参数 1 来确定执行的脚本。比如下列脚本
+
+```Bash
+#!/bin/sh
+
+start() {
+         #xxx 
+}
+
+stop() {
+         #xxx 
+}
+
+restart() {
+        stop
+        start
+}
+
+case "$1" in
+        start|stop|restart)
+                "$1";;
+        reload)
+                # Restart, since there is no true "reload" feature.
+                restart;;
+        *)
+                echo "Usage: $0 {start|stop|restart|reload}"
+                exit 1
+esac
+```
+
+#### After
+
+还有一些系统在之后的流程还有 systemd，service 等进程来配置。
 

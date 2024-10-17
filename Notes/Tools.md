@@ -67,7 +67,7 @@ gui 顾名思义
 2. 快捷键(命令)	
 
    ```bash
-   /usr/bin/diodon
+   /usr/bin/diodonrr
    ```
 
 ### ZSH
@@ -100,32 +100,42 @@ gui 顾名思义
 
 zsh-syntax-highlighting 高亮
 
-    ```bash
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    ```
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-sh/custom}/plugins/zsh-syntax-highlighting
+```
 
 zsh-autosuggestions 自动补全
 
-    ```bash
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    ```
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+git-open
+
+```bash
+git clone https://github.com/paulirish/git-open.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/git-open
+```
+
+
+
+
 
 ~/.zshrc 处添加 `plugins=(git zsh-syntax-highlighting zsh-autosuggestions)`
 
 5. 配置习惯
 
-   ```bash
-   ## close history share
-   setopt no_share_history
-   ```
+    ```bash
+    ## close history share
+    setopt no_share_history
+    ```
 
 6. 开发板前缀设置
 
    write below in `.bashrc`
 
-   ```bash
-   PS1="[%n@%m:%~]"
-   ```
+```bash
+PS1="[%n@%m:%~]"
+```
 
 `%n` meaning user name
 
