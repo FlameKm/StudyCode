@@ -407,3 +407,21 @@ sudo umount /mnt
 ### 9. 转义字符
 
 - `\`：用于转义特殊字符，例如 `\.`, `\*`, `\?` 等，以匹配字面量。
+
+## KDE
+
+安装
+
+```bash
+sudo apt install kde-plasma-desktop
+```
+
+选择 sddm 登陆
+
+切换登陆管理器，即桌面环境
+
+```bash
+sudo dpkg-reconfigure lightdm 
+sudo dpkg-reconfigure gdm3 # Ubuntu
+sudo dpkg-reconfigure sddm # KDE
+```
