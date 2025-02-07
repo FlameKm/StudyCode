@@ -304,6 +304,12 @@ System Monitor：在apt中 `gnome-system-monitor`
 
 System Monitor Indicator： 在apt中 `indicator-sysmonitor`
 
+### 剪切板
+
+gnome 下用 copyq，输入 `copyq menu` 可以快速打开。
+
+kde 有自带的
+
 
 
 

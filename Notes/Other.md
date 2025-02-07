@@ -410,7 +410,7 @@ sudo umount /mnt
 
 ## KDE
 
-安装
+### 安装
 
 ```bash
 sudo apt install kde-plasma-desktop
@@ -425,3 +425,10 @@ sudo dpkg-reconfigure lightdm
 sudo dpkg-reconfigure gdm3 # Ubuntu
 sudo dpkg-reconfigure sddm # KDE
 ```
+
+### 喜欢的主题
+
+```
+https://github.com/vinceliuice/Layan-kde
+```
+
