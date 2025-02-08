@@ -7,7 +7,7 @@
 
 struct cmd_t
 {
-    void (*fn)(char *, char *);
+    int (*fn)(int, int);
     const char *name;
 };
 
